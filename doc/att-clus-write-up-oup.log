@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.7.4)  11 APR 2022 12:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.7.4)  11 APR 2022 15:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -725,7 +725,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 703.
 Here is how much of TeX's memory you used:
  10534 strings out of 480608
  156073 string characters out of 5903631
- 443055 words of memory out of 5000000
+ 443056 words of memory out of 5000000
  26032 multiletter control sequences out of 15000+600000
  545016 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -751,7 +751,7 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2020/tex
 mf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2020/texmf
 -dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2020/texmf-d
 ist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on att-clus-write-up-oup.pdf (31 pages, 645240 bytes).
+Output written on att-clus-write-up-oup.pdf (31 pages, 645204 bytes).
 PDF statistics:
  811 PDF objects out of 1000 (max. 8388607)
  724 compressed objects within 8 object streams
