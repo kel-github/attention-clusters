@@ -17,58 +17,14 @@
             }
 
 
-% For knitr::kable functionality
-\usepackage{booktabs}
-\usepackage{longtable}
-
 %% To allow better options for figure placement
 %\usepackage{float}
 
 % Packages that are supposedly required by OUP sty file
 \usepackage{amssymb, amsmath, geometry, amsfonts, verbatim, endnotes, setspace}
 
-% For code highlighting I think
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-
-% For making Rmarkdown lists
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % Macros for dealing with affiliations, footnotes, etc.
 \makeatletter
@@ -104,35 +60,53 @@
 
 % Part for setting citation format package: biblatex
 
-% Part for indenting CSL refs
+
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% From pandoc table feature
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+
 % Pandoc citation processing
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
 % for Pandoc 2.8 to 2.10.1
 \newenvironment{cslreferences}%
-  {\setlength{\parindent}{0pt}%
-  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {}%
   {\par}
 % For Pandoc 2.11+
 \newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
  {% don't indent paragraphs
   \setlength{\parindent}{0pt}
   % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
   \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
  }%
  {}
-\usepackage{calc} % for calculating minipage widths
+\usepackage{calc}
 \newcommand{\CSLBlock}[1]{#1\hfill\break}
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-% Pandoc header
+
 \usepackage{lineno}
 \linenumbers
 
@@ -173,17 +147,17 @@
 
 \label{sec:Intro}
 
-Humans are good at exploiting predictive relationships between events to prioritise goal-relevant sensory data. For example, we learn quickly that the sound of a certain vehicle means that we can look for a loved one to enter our home, or that a red envelope poking out from the mailbox signals a potentially cheerful card inside. Yet how such predictive sensory cues are used to guide behaviour vary widely given the motivational state of the individual. Although a central and well studied tenet of many cognitive, computational and neurobiological theories of visual information processing is that competition for high-level representation is biased by predictive information pertaining to goal-relevant outcomes (\emph{visual prioritisation}, see Moore and Zirnsak 2017; Itti and Koch 2001; Buschman and Kastner 2015, for reviews), far less is known about whether disparate sources of predictive information bias visual priorities in the same way. How are such cues combined, if at all? Do individuals differ in how they leverage predictive relationships between sensory cues and their consequent outcomes to form biases? Here we seek to understand how the brain encodes cues that carry information about potential reward outcomes (incentive value), and the extent to which this differs from how the brain uses cues that signal the probable location of task-relevant target information (spatial certainty). We also seek to understand whether individuals combine such cues in a homogeneous manner, or whether heterogeneity exists in the formation of visual priorities.
+Humans are good at exploiting predictive relationships between events to prioritise goal-relevant sensory data. For example, we learn quickly that the sound of a certain vehicle means that we can look for a loved one to enter our home, or that a red envelope poking out from the mailbox signals a potentially cheerful card inside. Yet how such predictive sensory cues are used to guide behaviour vary widely given the motivational state of the individual. Although a central and well studied tenet of many cognitive, computational and neurobiological theories of visual information processing is that competition for high-level representation is biased by predictive information pertaining to goal-relevant outcomes (\emph{visual prioritisation}, see Moore and Zirnsak 2017; L. Itti and Koch 2001; Buschman and Kastner 2015, for reviews), far less is known about whether disparate sources of predictive information bias visual priorities in the same way. How are such cues combined, if at all? Do individuals differ in how they leverage predictive relationships between sensory cues and their consequent outcomes to form biases? Here we seek to understand how the brain encodes cues that carry information about potential reward outcomes (incentive value), and the extent to which this differs from how the brain uses cues that signal the probable location of task-relevant target information (spatial certainty). We also seek to understand whether individuals combine such cues in a homogeneous manner, or whether heterogeneity exists in the formation of visual priorities.
 
-A large number of studies have shown that visual priorities can be modified by the incentive value signalled by sensory cues (see Le Pelley et al. 2016, for a review). Such studies typically teach participants to associate a simple cue such as a colour circle with a potential reward value such as a cash payout. In visual search tasks performance is better or worse when high value cues are presented as targets or distractors respectively (e.g.~Anderson, Laurent and Yantis, (2011); Chelazzi et al (2014); Raymond and O'Brien (2009)). Similarly, it has been long established that performance is influenced in an analogous manner when sensory signals predict the spatial location where a target is likely to appear (Posner 1980). For example, target identification is faster when a preceding arrow points to the upcoming target location relative to when the arrow points away (see Chica et al. 2014; Carrasco 2011, for reviews). Although these two sources of expectation have comparable influences on visual priorities, i.e.~improved performance at a signalled location at the expense of performance at other locations, a growing number of studies suggest that the influence of spatial and incentive value expectations are exerted via independent mechanisms (Stankevich and Geng 2014; Garner, Bowman, and Raymond 2021; Kim and Anderson 2021; Le Pelley et al. 2022). For example, Garner et al (2021) parametrically manipulated spatial certainty by adjusting the reliability of a central spatial cue, and pit these cues against high and low value target and distractor locations. They found an additive influence of each expectation (spatial certainty and incentive value) even when reward outcomes were structured to make additivity a suboptimal strategy, suggesting an independent influence. What remains to be determined is why two expectations that have such comparable effects upon visual prioritisation may be manifest independently.
+A large number of studies have shown that visual priorities can be modified by the incentive value signalled by sensory cues (see Le Pelley et al. 2016, for a review). Such studies typically teach participants to associate a simple cue such as a colour circle with a potential reward value such as a cash payout. In visual search tasks performance is better or worse when high value cues are presented as targets or distractors respectively (e.g.~Anderson, Laurent and Yantis, (2011); Chelazzi et al (2014); Raymond and O'Brien (2009)). Similarly, it has been long established that performance is influenced in an analogous manner when sensory signals predict the spatial location where a target is likely to appear (Posner 1980). For example, target identification is faster when a preceding arrow points to the upcoming target location relative to when the arrow points away (see Chica et al. 2014; Carrasco 2011, for reviews). Although these two sources of expectation have comparable influences on visual priorities, i.e.~improved performance at a signalled location at the expense of performance at other locations, a growing number of studies suggest that the influence of spatial and incentive value expectations are exerted via independent mechanisms (Stankevich and Geng 2014; Garner, Bowman, and Raymond 2021; Kim and Anderson 2021; Le Pelley et al, 2022). For example, Garner et al (2021) parametrically manipulated spatial certainty by adjusting the reliability of a central spatial cue, and pit these cues against high and low value target and distractor locations. They found an additive influence of each expectation (spatial certainty and incentive value) even when reward outcomes were structured to make additivity a suboptimal strategy, suggesting an independent influence. What remains to be determined is why two expectations that have such comparable effects upon visual prioritisation may be manifest independently.
 
-One possibility, stemming from computational models of physical salience (Itti and Koch 2000), is that differing expectations are encoded via independent filters, and a weighted summation is applied across filter outcomes to form an attentional priority map, where peaks reflect the points of visual priority (see also Failing and Theeuwes 2018; Awh, Belopolsky, and Theeuwes 2012). The consequence is that a scene is the sum of its visual parts (Beyeler et al. 2019). To wit, spatial certainty and incentive value are encoded by unique filters prior to target onset, and their summed values are leveraged to build an \emph{anticipatory} prioritisation of locations in the visual scene. We label these accounts as anticipatory, as they reflect an encoding of the cue stimuli that occurs prior to the onset of the target stimulus, thus these mechanisms act to bias information processing towards locations where the upcoming target may or may not appear. Specifically, the proposed mechanisms are anticipatory towards the upcoming target.
+One possibility, stemming from computational models of physical salience (Itti and Koch, 2000), is that differing expectations are encoded via independent filters, and a weighted summation is applied across filter outcomes to form an attentional priority map, where peaks reflect the points of visual priority (see also Failing and Theeuwes 2018; Awh, Belopolsky, and Theeuwes 2012). The consequence is that a scene is the sum of its visual parts (Beyeler et al. 2019). To wit, spatial certainty and incentive value are each encoded by unique filters prior to target onset, and their summed values are leveraged to build an \emph{anticipatory} prioritisation of locations in the visual scene. We label such accounts as anticipatory, as they reflect an encoding of the cue stimuli that occurs prior to the onset of the target stimulus, thus these mechanisms act to bias information processing towards locations where the upcoming target may or may not appear. Specifically, the proposed mechanisms are anticipatory towards the upcoming target.
 
-An alternate possibility is that spatial certainty and incentive value confer an independent influence on visual prioritisation because they are leveraged at distinct stages of information processing (Sternberg 1969). It is well established that symbolic spatial cues modulate visual prioritisation prior to target onset (see Desimone and Duncan 1995; Carrasco 2011; Buschman and Kastner 2015, for reviews). Previous studies finding an independent influence of incentive value and spatial certainty (e.g.~Garner, Bowman, and Raymond 2021; Stankevich and Geng 2014) have pitted high and low incentive value cues between potential target and distractor locations. Importantly, although each value cue provided information about the reward incentive available should the target appear there, the actual reward available on a given trial is unknown until the target appears. Therefore the information offered by competing incentive value cues changes at target and distractor onset, where the distractor location becomes nullified with respect to potential reward incentive. Specifically, as long as the location of the target is detected, the participant already knows the only reward value they can possibly receive on that trial, irrespective of the actual feedback given at the end of the trial. Thus it is possible that the influence of incentive value on performance at least in part reflects a value update signal deployed after target onset. We do not refer to this an an \emph{anticipatory} prioritisation as it is deployed after target onset and is not used to bias information processing towards the upcoming target.
+An alternate possibility is that spatial certainty and incentive value confer an independent influence on visual prioritisation because they are leveraged at distinct stages of information processing (Sternberg 1969). It is well established that symbolic spatial cues modulate visual prioritisation prior to target onset (see Desimone and Duncan 1995; Carrasco 2011; Buschman and Kastner 2015, for reviews). Previous studies finding an independent influence of incentive value and spatial certainty (e.g. Garner, Bowman, and Raymond 2021; Stankevich and Geng 2014) have pitted high and low incentive value cues between potential target and distractor locations. Importantly, although each value cue provided information about the reward incentive available should the target appear there, the actual reward available on a given trial is unknown until the target appears. Therefore the information offered by competing incentive value cues changes at target and distractor onset, where the distractor location becomes nullified with respect to potential reward incentive. Specifically, as long as the location of the target is detected, the participant already knows the only reward value they can possibly receive on that trial, irrespective of the actual feedback given at the end of the trial. Thus it is possible that the influence of incentive value on performance at least in part reflects a value update signal deployed after target onset. We do not refer to this an \emph{anticipatory} prioritisation as it is deployed after target onset and is not used to bias information processing towards the upcoming target.
 
-What information are cue encoding mechanisms sensitive to before target onset? The influence of spatial cues on the anticipatory prioritisation of potential target locations has consistently been shown to be mediated by the experienced reliability of the cue (Prinzmetal et al. 2015; Vossel et al. 2015; Lanthier et al. 2015; Garner, Bowman, and Raymond 2021). This implies that the brain implements an encoding scheme based on \emph{selection history}, where the extent to which the cue information is leveraged to influence visual priorities is proportional to the expected value of the cue (e.g.~Mackintosh 1975; Le Pelley et al. 2016; Failing and Theeuwes 2018). Comparably, it has been proposed that a \emph{relative value} function underlies the influence of incentive value on visual priorities, where the expected value (EV) is computed for each cue, and each EV is normalised by the set of currently available expected values (Stănişor et al. 2013). If it were found that incentive value cues were encoded using such a relative value function, this would tie their encoding closely to that of spatial certainty, lending weight to the notion that both spatial and incentive value cues are encoded in a similar fashion into an anticipatory priority map (Stankevich and Geng 2014; Stănişor et al. 2013). Conversely, it has been proposed that incentive value cues may be encoded according to the \emph{motivational} value offered by the total set of reward values available on a given trial (see Stănişor et al. 2013; Sawaki, Luck, and Raymond 2015; Manohar et al. 2017). In this case, performance is better when more high incentive values are on offer. Finding that incentive value cues are encoded using a \emph{motivational} function would still place their influence as anticipatory, but would suggest that in contrast to spatial cues, their influence is generalised across the visual field.
+What information are cue encoding mechanisms sensitive to before target onset? The influence of spatial cues on the anticipatory prioritisation of potential target locations has consistently been shown to be mediated by the experienced reliability of the cue (Prinzmetal et al. 2015; Vossel et al. 2015; Lanthier et al. 2015; Garner, Bowman, and Raymond 2021). This implies that the brain implements an encoding scheme based on \emph{selection history}, where the extent to which the cue information is leveraged to influence visual priorities is proportional to the expected value of the cue (e.g. Mackintosh 1975; Le Pelley et al, 2016; Failing and Theeuwes 2018). Comparably, it has been proposed that a \emph{relative value} function underlies the influence of incentive value on visual priorities, where the expected value (EV) is computed for each cue, and each EV is normalised by the set of currently available expected values (Stănişor et al. 2013). If it were found that incentive value cues were encoded using such a relative value function, this would tie their encoding closely to that of spatial certainty, lending weight to the notion that both spatial and incentive value cues are encoded in a similar fashion into an anticipatory priority map (Stankevich and Geng 2014; Stănişor et al. 2013). Conversely, it has been proposed that incentive value cues may be encoded via an alternate anticipatory mechanism that leverages the \emph{motivational} value offered by summing across all reward values that are signalled as available on a given trial (see Stănişor et al. 2013; Sawaki, Luck, and Raymond 2015; Manohar et al. 2017). In this case, performance is better when more high incentive values are on offer. Finding that incentive value cues are encoded using a \emph{motivational} function would still place their influence as anticipatory, but would suggest that in contrast to spatial cues, their influence is generalised across the visual field.
 
-How might incentive value cues be encoded if they instead reflect an update in response to the resolution of unknown reward outcomes that occurs at or after target onset? An \emph{anticipatory} encoding mechanism assumes that the brain exploits known probabilities about the world to bias visual priorities towards the upcoming target. In order to understand how the visual system may respond to incentive value information once the target has onset and likely outcomes are known, we leverage insights from statistical theory regarding causal inference (e.g.~Pearl 2009). Specifically, these models suggest that one solution for determining causal contingencies is the representation of outcomes for both current choices and for the alternatives that were not currently taken (i.e.~\emph{counterfactual} representations). There is emerging evidence that such models may serve useful for understanding how the brain performs reasoning and decision-making. For example, fMRI activity in medial prefrontal cortex has been shown to correspond to the availability of counterfactual feedback in a value-based decision making task (Pischedda, Palminteri, and Coricelli 2020), and fMRI activity in prefrontal cortex corresponds to what would be expected if this region generates prediction errors that are proportional to the probability of reward gain for the best unchosen option (Boorman, Behrens, and Rushworth 2011). Collectively these findings imply the brain simulates the outcomes that can be gained from unchosen options in order to inform future decisions (Fouragnan et al. 2019). Here we test whether the influence of incentive values on visual priorities could reflect such a counterfactual update signal.
+How might incentive value cues be encoded if they instead reflect an update in response to the resolution of unknown reward outcomes that occurs at or after target onset, rather than an \emph{anticipatory} bias towards upcoming target locations? In order to understand how the visual system may respond to incentive value information once the target has onset and likely outcomes are known, we leverage insights from statistical theory regarding causal inference (e.g. Pearl 2009). Specifically, these models suggest that one solution for determining causal contingencies is the representation of outcomes for both current choices and for the alternatives that were not currently taken (i.e.~\emph{counterfactual} representations). There is emerging evidence that such models may serve useful for understanding how the brain performs reasoning and decision-making. For example, fMRI activity in medial prefrontal cortex has been shown to correspond to the availability of counterfactual feedback in a value-based decision making task (Pischedda, Palminteri, and Coricelli 2020), and fMRI activity in prefrontal cortex corresponds to what would be expected if this region generates prediction errors that are proportional to the probability of reward gain for the best unchosen option (Boorman, Behrens, and Rushworth 2011). Collectively these findings imply the brain simulates the outcomes that can be gained from unchosen options in order to inform future decisions (Fouragnan et al. 2019). Here we test whether the influence of incentive values on visual priorities could reflect such a counterfactual update signal.
 
 As mentioned above, the influence of expectations on visual priorities may also vary according to the current motivational state of the individual. Indeed, it is easy to imagine that all three of the above encoding mechanisms could be used to leverage the influence of incentive value, depending on the strategy implemented by the individual. This accords with recent theoretical assertions that the combinatorics of the visual world are so numerous that it is unlikely that a single solution exists for determining what sensory data should be prioritised with respect to ongoing expectations, and that individuals are likely to come up with one of a subset of solutions that best fits their own cost functions (Tsotsos et al. 2021). The over simplification of modelling cognitive mechanisms using one-size-fits-all assumptions has been demonstrated recently in the study of response inhibition. Rouder and Haaf (2021) showed that performance on tasks that are assumed to universally induce response conflict are best explained by models that allow conflict effects for some individuals and facilitative effects for others. This supports the notion that qualitatively different responses are present in the population. Here we address this issue in the context of when expectations influence visual priorities. Specifically, we seek to determine whether qualitative subtypes exist when spatial certainty and incentive value expectations are available to bias visual priorities.
 
@@ -222,7 +196,7 @@ All tasks were run with custom code written using Matlab 2016b and Psychtoolbox 
 \hypertarget{target-learning}{%
 \subsection{Target learning}\label{target-learning}}
 
-Participants viewed a white fixation cross (RGB: 255, 255, 255) that subtended a diameter of 1º visual angle, with a line-width of 0.8º. The fixation cross was centrally presented on a black background (RGB: 0, 0, 0). Two dark grey rings (RGB: 114, 114, 114), with an inner diameter of 2º, served as placeholders for upcoming target and distractor locations, and were simultaneously displayed -/+ 3.2º from the vertical meridian, and 4.8º below the horizontal meridian. After a randomised interval lasting between 1700-1800 ms, two gabors were presented (gaussian weighted sinusoidal gratings), one over each dark grey circle. Each gabor was 3º in diameter. The target gabor was rotated -/+ 45º and the distractor gabor was presented on one of the cardinal axes. Both gabors were presented for 67 ms. Participants were instructed to indicate whether the rotated gabor was presented clockwise or counterclockwise relative to the vertical meridian using the `f' and `j' keys, using the two index fingers on the home keys of a standard QWERTY keyboard (response mapping was counterbalanced across participants). Location of the gabors (left or right), orientation of the distractor gabor (vertical or horizontal) and tilt of the target gabor was fully counterbalanced across trials. Contingent on the participant's response, the message `Correct :)' or `Incorrect :(' was displayed in white text on the centre of the screen for 1000 ms. After the feedback message, the placeholders were removed and a dark grey cross, subtending 2º with a line width of 1º was centrally presented for 1000 ms. Trials continued until the participant scored \textgreater90\% correct across the previous 20 trials. Next, the contrast of the gabors were titrated to yield \textasciitilde75 \% accuracy for each participant using the QUEST staircasing procedure (Watson and Pelli 1983). The trials unfolded as described above with the following changes; subsequent to the target display, masks were presented over each gabor for 67 ms. Masks were made of noise patches which were a gaussian weighted square of random pixel values; generated from between the background colour to white. A broad range of contrast values were tested in the first 32 trials, which were titrated for each location over the subsequent 32 trials. The resulting contrast values were used for the remainder of the study. During this stage, participants did not receive feedback on their performance, as per explicit instruction. Instead of the feedback message, a dark grey period was presented centrally for 1000 ms.
+Participants viewed a white fixation cross (RGB: 255, 255, 255) that subtended a diameter of 1º visual angle, with a line-width of 0.8º. The fixation cross was centrally presented on a black background (RGB: 0, 0, 0). Two dark grey rings (RGB: 114, 114, 114), with an inner diameter of 2º, served as placeholders for upcoming target and distractor locations, and were simultaneously displayed -/+ 3.2º from the vertical meridian, and 4.8º below the horizontal meridian. After a randomised interval lasting between 1700-1800 ms, two gabors were presented (gaussian weighted sinusoidal gratings), one over each dark grey circle. Each gabor was 3º in diameter. The target gabor was rotated -/+ 45º and the distractor gabor was presented on one of the cardinal axes. Both gabors were presented for 67 ms. Participants were instructed to indicate whether the rotated gabor was presented clockwise or counterclockwise relative to the vertical meridian using the `f' and `j' keys, using the two index fingers on the home keys of a standard QWERTY keyboard (response mapping was counterbalanced across participants). Location of the gabors (left or right), orientation of the distractor gabor (vertical or horizontal) and tilt of the target gabor was fully counterbalanced across trials. Contingent on the participant's response, the message `Correct :)' or `Incorrect :(' was displayed in white text on the centre of the screen for 1000 ms. After the feedback message, the placeholders were removed and a dark grey cross, subtending 2º with a line width of 1º was centrally presented for 1000 ms. Trials continued until the participant scored \textgreater90\% correct across the previous 20 trials. Next, the contrast of the gabors were titrated to yield \textasciitilde75 \% accuracy for each participant using the QUEST staircasing procedure (Watson and Pelli, 1983). The trials unfolded as described above with the following changes; subsequent to the target display, masks were presented over each gabor for 67 ms. Masks were made of noise patches which were a gaussian weighted square of random pixel values; generated from between the background colour to white. A broad range of contrast values were tested in the first 32 trials, which were titrated for each location over the subsequent 32 trials. The resulting contrast values were used for the remainder of the study. During this stage, participants did not receive feedback on their performance, as per explicit instruction. Instead of the feedback message, a dark grey period was presented centrally for 1000 ms.
 
 \hypertarget{spatial-cue-learning}{%
 \subsection{Spatial cue learning}\label{spatial-cue-learning}}
@@ -232,7 +206,7 @@ The spatial cue learning phase was the same as above with the following differen
 \hypertarget{value-cue-learning}{%
 \subsection{Value cue learning}\label{value-cue-learning}}
 
-The value cue learning phase occurred as above with the following differences: For each trial, one of the dark grey rings was presented in one of two colours (RGBs: 82, 95, 186; or 0, 130, 0). Participants were informed that each colour predicted how much reward was available on that trial, given they got the task correct. One colour signalled a high reward value, whereas the second signalled a low reward value. Both predicted reward availability with p=.8, with no reward being attained on the remaining trials. The participant was informed explicitly about the colour reward mappings. Colour to value assignment was counterbalanced across participants.
+The value cue learning phase occurred as above with the following differences: For each trial, one of the dark grey rings was presented in one of two colours (RGBs: 82, 95, 186; or 0, 130, 0). Participants were informed that each colour predicted how much reward was available on that trial, given they got the task correct. One colour signalled a high reward value, whereas the second signalled a low reward value. Regardless of reward value, if a target appeared in that ring then reward was available for p=.8, with no reward being attained on the remaining trials (p=.2). The participant was informed explicitly about the colour reward mappings. Colour to value assignment was counterbalanced across participants.
 
 Across all trials (in this stage of learning), only a fixation cross was presented inside the grey diamond. Furthermore, the target always appeared in the one coloured ring (whereas the distractor appeared within the grey ring). Participants were explicitly informed that in the next stage of the task, both rings would be coloured and the directional cues would be reintroduced, therefore it still remained an optimal strategy to keep eyes trained on the central fixation cross.
 
@@ -276,15 +250,15 @@ To make predictions about performance given differing theoretical encoding strat
 
 where RT is response time for a given target \(x\), \(p\) is the probability of the event, and 1 reflects the option to not respond. Note that for the counterfactual encoding theory outlined below, it is sometimes possible that \(p\) = 0, so we modified the equation above to be a piecewise function, where in the case that p = 0, the first term is dropped from the model and the formula becomes \(RT_x = \beta \; \log(1) = 0\).
 
-Importantly, how \(p\) is calculated varies according to the set of events that a given encoding mechanism is tracking. An \emph{anticipatory} account (Failing and Theeuwes 2018) poses that in the case of spatial certainty, \(p\) is equal to the experienced probability of the spatial cue (Le Pelley et al. 2016; Mackintosh 1975). Comparably, \emph{anticipatory} accounts for the influence of incentive value suggest that \(p\) is computed by taking the expected value for each value cue, normalised by the set of expected values for that trial (Stănişor et al. 2013, \emph{relative value}):
+Importantly, how \(p\) is calculated varies according to the set of events that a given encoding mechanism is tracking. An \emph{anticipatory} account (Failing and Theeuwes 2018) poses that in the case of spatial certainty, \(p\) is equal to the experienced probability of the spatial cue (Le Pelley et al, 2016; Mackintosh 1975). Comparably, \emph{anticipatory} accounts for the influence of incentive value suggest that \(p\) is computed by taking the expected value for each value cue, normalised by the set of expected values for that trial (Stănişor et al. 2013, \emph{relative value}):
 
 \begin{equation}\label{eq:relVal}
   p = \frac{v_x}{\sum_{x=1}^{X} v_x}
 \end{equation}
 
-where \(v\) is the value available at location \(x\), for the set of \(X\) locations. As can be seen in Figure \ref{fig:predres} panel B, this account predicts that performance is related to the proportion of the total available reward signalled by each location. Therefore RTs should be fastest when the target appears at a high value location paired with a low value distractor location (hT/lD), and slowest for the opposite scenario. Importantly, performance when both locations signal high incentive value (hT/hD) should be comparable to lT/lD, as each location represents 50 \% of the reward available on that trial. Moreover, performance on these two conditions should lie between that observed for the hT/lD and lT/hD conditions, analogous to what would be expected when a spatial cue offers no certainty about the upcoming target location (p(target\textbar cue = .5)).
+where \(v\) is the value available at location \(x\), for the set of \(X\) locations. As can be seen in Figure \ref{fig:predres} panel B, this account predicts that performance is related to the proportion of the total available reward signalled by each location. Therefore RTs should be fastest when the target appears at a high value location paired with a low value distractor location (hT/lD), and slowest for the opposite scenario. Importantly, performance when both locations signal high incentive value (hT/hD) should be comparable to lT/lD, as each location (e.g.~hT \emph{or} hD) represents 50 \% of the total reward signalled as available on that trial (i.e.~is one of two value cues currently displayed). Moreover, performance on these two conditions should lie between that observed for the hT/lD and lT/hD conditions, analogous to what would be expected when a spatial cue offers no certainty about the upcoming target location (p(target\textbar cue = .5)).
 
-As noted above, in addition to the relative value model, it has been proposed that value may induce a widespread, motivational boost to visual information processing, proportional to the total set of signalled values for that trial (Stănişor et al. 2013; Sawaki, Luck, and Raymond 2015)) This \emph{motivational} encoding model predicts that \(p\) from equation \ref{eq:HH} is computed as:
+As noted above, in addition to the relative value model, it has been proposed that value may induce a widespread, motivational boost to visual information processing, proportional to the sum of signalled values for that trial (Stănişor et al. 2013; Sawaki, Luck, and Raymond 2015)) This \emph{motivational} encoding model predicts that \(p\) from equation \ref{eq:HH} is computed as:
 
 \begin{equation}\label{eq:motiv}
   p = \sum_{1}^{X} p_x * v_x 
@@ -324,7 +298,7 @@ This model predicts that performance is related to the loss accrued by not attai
 \hypertarget{qualitative-predictions}{%
 \paragraph{Qualitative Predictions}\label{qualitative-predictions}}
 
-Two approaches were used to determine which theoretical models best accounted for the data. First, the pattern of predicted results allowed for qualitative statements to be made about anticipated differences between spatial certainty and incentive value conditions. Specifically, for spatial certainty, an anticipatory (selection history) model predicts that performance is directly proportional to the reliability of the cue, therefore RTs should be fastest for p(target\textbar cue) = .8 conditions, next fastest for p = .5, and slowest for p = .2. (see Figure \ref{fig:predres}). (Note: we included a counterfactual regressor for the influence of spatial certainty as a null model against which to compare the anticipatory model). For incentive value, an anticipatory relative value model predicts that performance will be fastest in the hT/lD condition, next fastest and comparable for the hT/hD and lT/lD conditions, and slowest for the lT/hD condition. A motivational model, while still anticipatory, predicts that performance should be fastest for the hT/hD condition, next fastest for the lT/hD and hT/lD conditions, and slowest for the lT/lD condition. The counterfactual model instead predicts comparable performance for hT/hD, lT/lD and hT/lD conditions, and a selective slowing for lT/hD trials. Note that selective slowing in the presence of high value distractors has recently been observed in alternate paradigms using colour singletons as distractors (Watson et al. 2020) or valued (positive or negative) vs neutral colours in a dot probe task (Müller, Rothermund, and Wentura 2016). We shall return to how the current work complements and extends these findings in the discussion.
+Two approaches were used to determine which theoretical models best accounted for the data. First, the pattern of predicted results allowed for qualitative statements to be made about anticipated differences between spatial certainty and incentive value conditions. Specifically, for spatial certainty, an anticipatory (selection history) model predicts that performance is directly proportional to the reliability of the cue, therefore RTs should be fastest for p(target\textbar cue) = .8 conditions, next fastest for p = .5, and slowest for p = .2. (see Figure \ref{fig:predres}). (Note: we included a counterfactual regressor for the influence of spatial certainty as a null model against which to compare the anticipatory model). For incentive value, an anticipatory relative value model predicts that performance will be fastest in the hT/lD condition, next fastest and comparable for the hT/hD and lT/lD conditions, and slowest for the lT/hD condition. A motivational model, while still anticipatory, predicts that performance should be fastest for the hT/hD condition, next fastest for the lT/hD and hT/lD conditions, and slowest for the lT/lD condition. The counterfactual model instead predicts comparable performance for hT/hD, lT/lD and hT/lD conditions, and a selective slowing for lT/hD trials. Note that selective slowing in the presence of high value distractors has recently been observed in alternate paradigms using colour singletons as distractors (Watson et al, 2020) or valued (positive or negative) vs neutral colours in a dot probe task (Müller, Rothermund, and Wentura 2016). We shall return to how the current work complements and extends these findings in the discussion.
 
 To test these qualitative predictions, RT and accuracy data were each subject to a 3 (spatial certainty) x 4(incentive value configuration) repeated measures ANOVA. Statistically significant results were followed up using t-tests, to identify where found differences matched the qualitative predictions. The FDR correction was applied for multiple comparisons (q\textless.05). Bayesian t-tests were applied in cases where predicted differences were null and post-hoc t-tests did not find evidence to reject the null hypothesis using the BayesFactor package for R (Morey, Rouder, and Jamil (2015)).
 
@@ -338,7 +312,7 @@ Second, we applied a quantitative approach by determining which of the theoretic
 
 To test for the presence of qualitative subtypes, the data were subject to a clustering analysis. The key effects of interest were calculated for each participant. The size of the spatial cueing effect was computed by subtracting RTs for high certainty trials (p(target location\textbar cue) = .8) from low certainty trials (p(target location\textbar cue) = .2). The size of the influence of incentive value was computed by subtracting RTs from the hT/hD condition from the remaining conditions (hT/lD, lT/hD, lT/lD), yielding three scores. To determine the reliability of these measures within individuals, these scores were also computed using the data taken from odd and even trials and were subject to a correlation analysis, with higher correlation values being interpreted as reflecting greater reliability. The features (spatial cueing effect and 3 x incentive value effects) were scaled prior to being entered into the clustering analysis.
 
-When using unsupervised algorithms it is important to ensure that the discovered data subsets do not reflect the result of an artifactual structure; i.e., the clustering solution should reflect a likely solution rather than something that has been forced onto the data. We applied two distinct clustering algorithms to protect against such a possibility and to validate our findings. First, we applied a K-means clustering algorithm. K-means clustering seeks to sort data points in such a way that each observation in a cluster is more alike to those within the cluster than observations in other clusters, by minimising the squared Euclidean distance to a given cluster centroid. We tested cluster solutions between 1 and 10, with each solution performed over 10000 different random initialisations (Hofmans et al. 2015), to avoid ending in a local minimum. The optimal number of clusters was based on the largest relative decrease in the sum of squared Euclidean distances, the mean silhouette width (a measure of how similar datapoints are to their own cluster relative to other clusters), and by maximisation of the Dunn index (DI) (Dunn\textdagger 1974). Second, we applied an OPTICS algorithm which uses discontinuities in distances between data points to identify clusters (reachability distance). One of the advantages of the OPTICS algorithm is that it allows identification of both clusters and outliers; the latter being points that lay beyond the bounds of any given cluster and that do not share that space with the minimum number of data points required to constitute a cluster. Following convention we defined this minimum cluster membership as the number of features plus 1. Using these convergent clustering techniques we identify two subtypes in the data, however whether these are interpreted as two distinct clusters or one cluster and a group of outliers is dependent on the specific algorithm employed. Importantly, the subsequent behavioural differences observed between groups was consistent regardless of the specific algorithm used to assign cluster membership.
+When using unsupervised algorithms it is important to ensure that the discovered data subsets do not reflect the result of an artifactual structure; i.e., the clustering solution should reflect a likely solution rather than something that has been forced onto the data. We applied two distinct clustering algorithms to protect against such a possibility and to validate our findings. First, we applied a K-means clustering algorithm. K-means clustering seeks to sort data points in such a way that each observation in a cluster is more alike to those within the cluster than observations in other clusters, by minimising the squared Euclidean distance to a given cluster centroid. We tested cluster solutions between 1 and 10, with each solution performed over 10000 different random initialisations (Hofmans et al. 2015), to avoid ending in a local minimum. The optimal number of clusters was based on the largest relative decrease in the sum of squared Euclidean distances, the mean silhouette width (a measure of how similar datapoints are to their own cluster relative to other clusters), and by maximisation of the Dunn index (DI) (Dunn 1974). Second, we applied an OPTICS algorithm which uses discontinuities in distances between data points to identify clusters (reachability distance). One of the advantages of the OPTICS algorithm is that it allows identification of both clusters and outliers; the latter being points that lay beyond the bounds of any given cluster and that do not share that space with the minimum number of data points required to constitute a cluster. Following convention we defined this minimum cluster membership as the number of features plus 1. Using these convergent clustering techniques we identify two subtypes in the data, however whether these are interpreted as two distinct clusters or one cluster and a group of outliers is dependent on the specific algorithm employed. Importantly, the subsequent behavioural differences observed between groups was consistent regardless of the specific algorithm used to assign cluster membership.
 
 To validate the cluster subtypes, and to determine any differences in the extent to which the 2 groups used spatial certainty and incentive value cues, the behavioural data were subject to an ANOVA as defined above, with the additional group factor, making it a 2 (group) x 2 (spatial certainty) x 4 (incentive value) mixed ANOVA. Observed differences were followed up using the procedure defined above. Lastly, to see if the groups differed in how they encoded the cues, the data were subject to the same LME models, this time applied to each group separately.
 
@@ -374,7 +348,7 @@ As can be seen from the accuracy data in Figure \ref{fig:grpbehavfig}, the resul
 
 \label{sec:GrpLvlLME}
 
-Next we determined which of our parametric regressors best accounted for the influence of each cue on performance. Here we predicted median RT's, however the pattern of results was the same if we used an inverse efficiency measure (\(ie = \frac{RT}{acc}\)). Comparisons of LMEs showed that for spatial certainty, the \emph{anticipatory} (selection history) model (\(AIC\): -1221.13, \(BIC\): -1196.59) provided a better account of the data than the \emph{counterfactual} model (\(AIC\): -1015.39, \(BIC\): -990.86, see Figure \ref{fig:grplvlmodelfits}0. Moreover, Wald chi square tests showed that while the selection history regressor was a significant predictor of performance (\(W_{t}\)(1) = 41.08, \(p\) = 1.46e-10), the counterfactual regressor was not (\(W_{t}\)(1) = 0.52, \(p\) = 0.47).
+Next we determined which of our parametric regressors best accounted for the influence of each cue on performance. Here we predicted median RT's, however the pattern of results was the same if we used an inverse efficiency measure (\(ie = \frac{RT}{acc}\)). Comparisons of LMEs showed that for spatial certainty, the \emph{anticipatory} (selection history) model (\(AIC\): -1221.13, \(BIC\): -1196.59) provided a better account of the data than the \emph{counterfactual} model (\(AIC\): -1015.39, \(BIC\): -990.86, see Figure \ref{fig:grplvlmodelfits}. Moreover, Wald chi square tests showed that while the selection history regressor was a significant predictor of performance (\(W_{t}\)(1) = 41.08, \(p\) = 1.46e-10), the counterfactual regressor was not (\(W_{t}\)(1) = 0.52, \(p\) = 0.47).
 
 In contrast, the influence of incentive value was best predicted by the \emph{counterfactual} model (\(AIC\): -1268.50, \(BIC\): -1251.00, see Figure \ref{fig:grplvlmodelfits}) over the \emph{anticipatory} models (relative value: \(AIC\): -1259.07, \(BIC\): -1241.57; motivational encoding: \(AIC\): -1174.10, \(BIC\): -1156.60). Interestingly, all 3 regressors were able to predict performance at a level that was statistically significant (counterfactual model: \(W_{t}\)(1) = 114.50, \(p\) = 1.01e-26, relative value: \(W_{t}\)(1) = 102.75, \(p\) = 3.80e-24, motivational encoding: \(W_{t}\)(1) = 7.46, \(p\) = 0.006), demonstrating the importance of model comparisons when using parametric regressors to predict performance. Indeed, this is perhaps unsurprising given that the predictions made by the relative value and counterfactual models share some similarities in the predictions they make. Importantly both the qualitative and quantitative comparisons yield support for the counterfactual account.
 
@@ -399,17 +373,17 @@ As we sought to understand whether systematic individual differences underlie th
 \begin{longtable}[]{@{}lccl@{}}
 \caption{\label{tab:reliabilityanalysis}Reliability of the key behavioural effects}\tabularnewline
 \toprule
-Effect & r & df & p\tabularnewline
+Effect & r & df & p \\
 \midrule
 \endfirsthead
 \toprule
-Effect & r & df & p\tabularnewline
+Effect & r & df & p \\
 \midrule
 \endhead
-SC & 0.696 & 145 & 1.29e-22\tabularnewline
-IVi & 0.926 & 145 & 2.40e-63\tabularnewline
-IVii & 0.908 & 145 & 1.18e-56\tabularnewline
-IViii & 0.828 & 145 & 3.48e-38\tabularnewline
+SC & 0.696 & 145 & 1.29e-22 \\
+IVi & 0.926 & 145 & 2.40e-63 \\
+IVii & 0.908 & 145 & 1.18e-56 \\
+IViii & 0.828 & 145 & 3.48e-38 \\
 \bottomrule
 \end{longtable}
 
@@ -473,21 +447,21 @@ Previous observations of the independent influences of spatial certainty and inc
 
 Our observation that RTs are selectively slowed when participants must respond to a low value target location in the presence of a high value distractor accords with recent findings of selective slowing when high reward values are signalled at distractor locations relative to neutral target locations. For example, Watson et al (2020) showed that when participants are required to respond to a target in a visual search task that contains a single coloured distractor, participants are slower when that distractor signals high incentive value, relative to trials where a low incentive value is signalled instead. Moreover, Muller et al (2016) paired high or low incentive value cues with neutral colour cues in a dot probe task and again found selective slowing when the target appeared at a neutral location paired with a high value distractor, relative to trials where the low reward signal acted as a distractor instead. These findings have been interpreted as reflecting selective delayed disengagement of attentional mechanisms from stimuli that signal larger reward gains.
 
-Our findings build on this work in the following ways; first, we provide new baseline conditions that can determine whether or not a high-value location was initially prioritised. We assume that this is relevant for attention disengagement accounts in the following way; if visual re-prioritisation is required to disengage from a high value location towards lower value locations, then prioritisation of the high value location must currently be higher relative to other locations. Therefore, there should be some behavioural benefit for prioritised locations relative to conditions where prioritisation between the locations is equal. Indeed, Watson et al (2020) showed that when a high incentive target is presented in a currently foveated location, RT performance is faster, relative to trials in which that foveated location signals low incentives. In the current work, we find that performance was comparable between high target value/low distractor value trials (high tgt/low dst), and high tgt/high dst trials (where we assume that prioritisation of either location should occur at chance). This suggests that incentive value does not always induce prioritisation of a high value location, therefore selective disengagement from a previously prioritised location may not always be sufficient to account for the influence of incentive value on performance.
+Our findings build on this work in the following ways; first, we provide new baseline conditions that can determine whether or not a high-value location was initially prioritised. We assume that this is relevant for attention disengagement accounts in the following way; if visual re-prioritisation is required to disengage from a high value location towards lower value locations, then prioritisation of the high value location must currently be higher relative to other locations. Therefore, there should be some behavioural benefit for prioritised locations relative to conditions where prioritisation between the locations is equal. Indeed, Watson et al (2020) showed that when a high incentive target is presented in a currently foveated location, RT performance is faster, relative to trials in which that foveated location signals low incentives. In the current work, we find that performance was comparable between high target value/low distractor value trials (hT/lD), and hT/hD trials (where we assume that prioritisation of either location should occur at chance). This suggests that incentive value does not always induce prioritisation of a high value location, therefore selective disengagement from a previously prioritised location may not always be sufficient to account for the influence of incentive value on performance.
 
 One point of complement between the counterfactual and delayed disengagement accounts is that if there does exist a selective disengagement mechanism that is reflected only in changing disengagement durations (i.e.~that is not the consequence of a previous prioritisation that benefitted performance), then perhaps the duration of disengagement can be modelled using such a counterfactual mechanism as we have investigated here. Importantly, in the current work we propose a quantitative computation that makes predictions regarding the extent to which selective slowing should be observed across multiple paradigms. However, this work is in its infancy and the extent to which the currently proposed counterfactual account is exclusive or complementary to other alternate accounts such as delayed disengagement needs to be determined in future studies. However, this is to our knowledge the first test showing that incentive value may act on a distinct stage of information processing to anticipatory expectations.
 
-It remains to be determined to what extent previous observations of value driven visual prioritisation (e.g.~Anderson, Laurent, and Yantis 2011; Itthipuripat et al. 2019; MacLean, Diaz, and Giesbrecht 2016) can also be be thought of as reflecting a counterfactual loss signal. Indeed, a common feature of previous investigations is to present coloured cues that have been associated with incentive values in a new task under extinction, i.e.~reward incentives are no longer available. The key finding is that participants show greater response slowing when the high value colour is presented as a distractor, relative to when the distractor is of low value or carries no value association. Given participants know they can no longer attain rewards in this stage, this observation has previously been interpreted as reflecting a competition between top-down settings and cue-reward associations. It is also possible that such competition reflects a counterfactual loss update. It may be beneficial to model what may have occurred given previous experiences with the incentive value cue (i.e.~the reward learning phase), so that this cue can be prioritised should reward values become available again, or indeed to learn that this cue really no longer offers reward. Critically, a counterfactual account of incentive value cueing makes clear predictions about when in time such cues should influence visual information processing; specifically once the targets have onset and the current outcomes are known. This is in contrast to spatial certainty expectations, which are known to influence visual information processing prior to target onset (e.g.~Zhigalov et al. 2019). We seek to follow up this clear and testable hypothesis in subsequent work.
+It remains to be determined to what extent previous observations of value driven visual prioritisation (e.g. Anderson, Laurent, and Yantis 2011; Itthipuripat et al. 2019; MacLean, Diaz, and Giesbrecht 2016) can also be thought of as reflecting a counterfactual loss signal. Indeed, a common feature of previous investigations is to present coloured cues that have been associated with incentive values in a new task under extinction, i.e.~reward incentives are no longer available. The key finding is that participants show greater response slowing when the high value colour is presented as a distractor, relative to when the distractor is of low value or carries no value association. Given participants know they can no longer attain rewards in this stage, this observation has previously been interpreted as reflecting a competition between top-down settings and cue-reward associations. It is also possible that such competition reflects a counterfactual loss update. It may be beneficial to model what may have occurred given previous experiences with the incentive value cue (i.e.~the reward learning phase), so that this cue can be prioritised should reward values become available again, or indeed to learn that this cue really no longer offers reward. Critically, a counterfactual account of incentive value cueing makes clear predictions about when in time such cues should influence visual information processing; specifically once the targets have onset and the current outcomes are known. This is in contrast to spatial certainty expectations, which are known to influence visual information processing prior to target onset (e.g. Zhigalov et al. 2019). We seek to follow up this clear and testable hypothesis in subsequent work.
 
-It remains to be determined whether spatial certainty cues can always be best explained by anticipatory mechanisms, and incentive value cues counterfactual mechanisms, or whether task demands and cue formations can modify where and how each account best predicts performance. For example, in the current study (as well as many of the investigations into the influence of incentive value associations on visual prioritisation (Anderson, Laurent, and Yantis 2011; Garner, Bowman, and Raymond 2021; Itthipuripat et al. 2019; Kim and Anderson 2021; Le Pelley et al. 2015, 2022; macleanIrrelevantLearnedReward2016; Stănişor et al. 2013; Stankevich and Geng 2014)), incentive value is not predictive of target location under the key testing conditions, and therefore offers no benefit for finding the target. It would be interesting to test within a single set of participants whether shifting between value cueing conditions that are predictive and non-predictive of upcoming target locations likewise shifts individuals between anticipatory and counterfactual styles of cue influence. Delineating these boundary conditions is a focus of our ongoing work.
+It remains to be determined whether spatial certainty cues can always be best explained by anticipatory mechanisms, and incentive value cues counterfactual mechanisms, or whether task demands and cue formations can modify where and how each account best predicts performance. For example, in the current study (as well as many of the investigations into the influence of incentive value associations on visual prioritisation (Anderson, Laurent, and Yantis 2011; Garner, Bowman, and Raymond 2021; Itthipuripat et al. 2019; Kim and Anderson 2021; Le Pelley et al, 2015; Le Pelley et al, 2022; MacLean, Diaz, and Giesbrecht 2016; Stănişor et al. 2013; Stankevich and Geng 2014)), incentive value is not predictive of target location under the key testing conditions, and therefore offers no benefit for finding the target. It would be interesting to test within a single set of participants whether shifting between value cueing conditions that are predictive and non-predictive of upcoming target locations likewise shifts individuals between anticipatory and counterfactual styles of cue influence. Mapping anticipatory and counterfactual styles of responding to underlying neural signals will also be revealing. For example, recent work regarding the N2pc component during visual search shows that this component, which is tied to spatial shifts in visual processing, changes in latency with physical salience manipulations, and in amplitude with incentive value manipulations (Bachman et al. 2020). It may be that anticipatory and counterfactual styles of responding map to these dissociable influences on underlying neural activity. Future research should combine manipulations of physical salience, anticipatory predictions and counterfactual information to investigate this possibility.
 
-It also remains to be determined to what extent the influence of incentive value cues remains independent to other types of spatial cue. For example, previous research does suggest an interactive relationship between exogenous spatial and incentive value cues under some conditions, for example when exogenous cues signal both a likely spatial location and a reward (Munneke, Hoppenbrouwers, and Theeuwes 2015). Although this suggests that value cues can tap into the action of exogenously driven visual prioritisations, other recent work suggests that responses to value cues may be distinct from exogenous mechanisms as their influence appears immune to the procedures that typically prevent distraction from physically salient stimuli (Pearson et al. 2020). The continued exploration of the relationship between incentive value and other attentional cues is pertinent for future work.
+It also remains to be determined to what extent the influence of incentive value cues remains independent to other types of spatial cue. For example, previous research does suggest an interactive relationship between exogenous spatial and incentive value cues under some conditions, for example when exogenous cues signal both a likely spatial location and a reward (Munneke, Hoppenbrouwers, and Theeuwes 2015). Although this suggests that value cues can tap into the action of exogenously driven visual prioritisations, other recent work suggests that responses to value cues may be distinct from exogenous mechanisms as their influence appears immune to the procedures that typically prevent distraction from physically salient stimuli (Pearson et al. 2020). Moreover, the current work focuses on the use of spatial and reward value information offered by separate cue signals. Previous work shows an interactive influence of dissociable information sources when they are both signalled by the very same cue; for example when a word cue signals both the upcoming spatial location of a target stimulus and the likely hand of response, yet an additive influence when separate cues are used (Mattler 2004). It remains to be determined whether combining spatial and incentive value information into a single cue would produce additive or interactive influences on responses, and whether such a combination would result in an anticipatory or counterfactual style of response.
 
-Previous investigations into the neural representation of counterfactual outcomes have used overt choice paradigms (e.g.~Boorman, Behrens, and Rushworth 2011; Fouragnan et al. 2019; Pischedda, Palminteri, and Coricelli 2020), where participants are instructed to select from between competing options. It is interesting that we observe evidence for a visual prioritisation signal that reflects counterfactual loss in the current paradigm, as participants have no choice over which reward outcome will be attained on any given trial. Specifically, they cannot choose where the target and distractor will appear. The current findings show that the brain still simulates counterfactual information even when this information cannot be used to inform future choices, which does accord with recent work showing that humans seek information that has no instrumental value (e.g.~Brydevall et al. 2018; van Lieshout, de Lange, and Cools 2020). Here we show evidence that the visual system may model alternate outcomes even when those outcomes are non-instrumental, and that this information modifies visual priorities. Why might a system engage in such behaviour? We propose that counterfactual losses may act as a brake on the competition for visual representation; by detecting when evolving outcomes do not match what is desired, slowing behaviour may provide time for cues that predict desired outcomes to become more competitive for representation in awareness. Such a signal could act to put an agent back on track under circumstances where early deviations from the ideal outcome are tagged and addressed.
+Previous investigations into the neural representation of counterfactual outcomes have used overt choice paradigms (e.g. Boorman, Behrens, and Rushworth 2011; Fouragnan et al. 2019; Pischedda, Palminteri, and Coricelli 2020), where participants are instructed to select from between competing options. It is interesting that we observe evidence for a visual prioritisation signal that reflects counterfactual loss in the current paradigm, as participants have no choice over which reward outcome will be attained on any given trial. Specifically, they cannot choose where the target and distractor will appear. The current findings show that the brain still simulates counterfactual information even when this information cannot be used to inform future choices, which does accord with recent work showing that humans seek information that has no instrumental value (e.g. Brydevall et al. 2018; van Lieshout, de Lange, and Cools 2020). Here we show evidence that the visual system may model alternate outcomes even when those outcomes are non-instrumental, and that this information modifies visual priorities. Why might a system engage in such behaviour? We propose that counterfactual losses may act as a brake on the competition for visual representation; by detecting when evolving outcomes do not match what is desired, slowing behaviour may provide time for cues that predict desired outcomes to become more competitive for representation in awareness. Such a signal could act to put an agent back on track under circumstances where early deviations from the ideal outcome are tagged and addressed.
 
 We found evidence for two subtypes of response to incentive values cues, however the interpretation of the two groups differs depending on the clustering algorithm used to detect them. Importantly, the same pattern of group differences were found regardless of the specific clustering algorithm used to organise the data into subtypes. Trackers used incentive value cues and spatial certainty cues and followers used only spatial certainty cues. This suggests that there is some weight to theoretical assertions that individuals will differ in how they leverage information to guide visual priorities (Tsotsos et al. 2021). However, what the current data show is that although some individuals may differ in which cues they use, it appears that how cues are encoded is consistent across individuals. This suggests that while individuals have some control over which sensory cues are used to guide their visual priorities, the nature of how they are encoded is set across individuals. Thus theories of motivated attention may need to account for how the individual's motivational state may result in differing profiles of cue use, but not in how cues are used.
 
-Interestingly, all individuals used spatial certainty cues suggesting that their use is compulsory. It remains to be determined whether this is because spatial cues are over-learned stimuli that invoke habitual responses (e.g.~Lingawi, Dezfouli, and Balleine 2016; Dolan and Dayan 2013; Jiang and Sisk 2019), or if they reflect an automated hard-coded response to the spatial information inherent in the visual cue (Ristic and Kingstone 2012). Interestingly, although not tested formally the current data imply that participants who did not use incentive value cues were influenced to a greater extent by the central arrow cues that denoted spatial certainty. This could be because these participants were more susceptible to stimuli that invoke automated visual prioritisation, were unable to use both cues to modify priorities, or were unmotivated by the value cues which consequently left more leeway to be influenced by the spatial cue. We seek to address these possibilities in future studies.
+Interestingly, all individuals used spatial certainty cues suggesting that their use is compulsory. It remains to be determined whether this is because spatial cues are over-learned stimuli that invoke habitual responses (e.g. Lingawi, Dezfouli, and Balleine 2016; Dolan and Dayan 2013; Jiang and Sisk 2019), or if they reflect an automated hard-coded response to the spatial information inherent in the visual cue (Ristic and Kingstone 2012). Interestingly, although not tested formally the current data imply that participants who did not use incentive value cues were influenced to a greater extent by the central arrow cues that denoted spatial certainty. This could be because these participants were more susceptible to stimuli that invoke automated visual prioritisation, were unable to use both cues to modify priorities, or were unmotivated by the value cues which consequently left more leeway to be influenced by the spatial cue. We seek to address these possibilities in future studies.
 
 As mentioned above, interpretation of the sources of subtypes changes depending on the clustering algorithm used to group the data. The more convincing clustering solution grouped participants as belonging to one homogeneous group, or as outliers that could not readily be assigned to any group. The statistical power required to perform a clustering analysis is largely dependent on the nature of clusters in the underlying data (Hair, Black, and Babin 2010). Given the novelty of the current research question, we opted to run a larger study (N=149) to provide the best opportunity to identify qualitative subsets. However, it remains unknown whether the currently identified outliers genuinely reflect outliers or if they would attain membership to a new cluster given a sufficiently large number of data points. Moreover, although the statistically reliable behavioural differences between trackers and followers do validate the decision to accept a 2-cluster solution, it would be informative to further validate group membership on an external measure. For example, do followers suffer more cognitive failures in daily life than trackers? We seek to address these issues in future work.
 
@@ -496,7 +470,7 @@ As mentioned above, interpretation of the sources of subtypes changes depending 
 
 \label{sec:conclusions}
 
-There has been intense interest over the past decade in why incentive value cues may modify visual priorities, particularly when value cues are no more physically salient than other display items and such cues can be antithetical to the current task demands (Le Pelley et al. 2016; Chelazzi et al. 2013; J. Raymond 2009; Awh, Belopolsky, and Theeuwes 2012). Here we provide a clue for why incentive value cues act independently to other cues such as spatial cues which are assumed to be encoded into a priority map to guide visual priorities (Failing and Theeuwes 2018; Chelazzi et al. 2014; Awh, Belopolsky, and Theeuwes 2012). Specifically, we propose that incentive value cues are encoded into a representation of counterfactual loss that tracks how well current task outcomes map onto the best possible task outcomes given previous experiences with the same stimuli. Interestingly, although individuals differ in whether or not they engage with such cues, they are consistent in how they use them. Thus theoretical accounts of motivated attention may need to account for qualitatively different responses to reward associated cues. Our results imply that the role of incentive value in the visual system is to influence learning and adaptation; we propose that by slowing down performance in response to counterfactual losses the system gains time to boost the sensory representation of the best outcome given previous experience with elements of the visual scene.
+There has been intense interest over the past decade in why incentive value cues may modify visual priorities, particularly when value cues are no more physically salient than other display items and such cues can be antithetical to the current task demands (Le Pelley et al, 2016; Chelazzi et al, L. Chelazzi et al. 2013; Raymond et al, 2009; Awh, Belopolsky, and Theeuwes 2012). Here we provide a clue for why incentive value cues act independently to other cues such as spatial cues which are assumed to be encoded into a priority map to guide visual priorities (Failing and Theeuwes 2018; Chelazzi et al, 2014; Awh, Belopolsky, and Theeuwes 2012). Specifically, we propose that incentive value cues are encoded into a representation of counterfactual loss that tracks how well current task outcomes map onto the best possible task outcomes given previous experiences with the same stimuli. Interestingly, although individuals differ in whether or not they engage with such cues, they are consistent in how they use them. Thus theoretical accounts of motivated attention may need to account for qualitatively different responses to reward associated cues. Our results imply that the role of incentive value in the visual system is to influence learning and adaptation; we propose that by slowing down performance in response to counterfactual losses the system gains time to boost the sensory representation of the best outcome given previous experience with elements of the visual scene.
 
 \hypertarget{references}{%
 \section{References}\label{references}}
@@ -504,193 +478,200 @@ There has been intense interest over the past decade in why incentive value cues
 \label{sec:refs}
 
 \hypertarget{refs}{}
-\begin{cslreferences}
-\leavevmode\hypertarget{ref-andersonValuedrivenAttentionalCapture2011}{}%
-Anderson, B. A., P. A. Laurent, and S Yantis. 2011. ``Value-Driven Attentional Capture.'' \emph{Proceedings of the National Academy of Sciences} 108 (25): 10367--71. \url{https://doi.org/10.1073/pnas.1104047108}.
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-andersonValuedrivenAttentionalCapture2011}{}}%
+Anderson, B. A., P. A. Laurent, and S Yantis. 2011. {``Value-Driven Attentional Capture.''} \emph{Proceedings of the National Academy of Sciences} 108 (25): 10367--71. \url{https://doi.org/10.1073/pnas.1104047108}.
 
-\leavevmode\hypertarget{ref-awhTopdownBottomupAttentional2012}{}%
-Awh, Edward, Artem V. Belopolsky, and Jan Theeuwes. 2012. ``Top-down Versus Bottom-up Attentional Control: A Failed Theoretical Dichotomy.'' \emph{Trends in Cognitive Sciences} 16 (8): 437--43. \url{https://doi.org/10.1016/j.tics.2012.06.010}.
+\leavevmode\vadjust pre{\hypertarget{ref-awhTopdownBottomupAttentional2012}{}}%
+Awh, Edward, Artem V. Belopolsky, and Jan Theeuwes. 2012. {``Top-down Versus Bottom-up Attentional Control: A Failed Theoretical Dichotomy.''} \emph{Trends in Cognitive Sciences} 16 (8): 437--43. \url{https://doi.org/10.1016/j.tics.2012.06.010}.
 
-\leavevmode\hypertarget{ref-beyelerNeuralCorrelatesSparse2019}{}%
-Beyeler, M, E. L. Rounds, K. D. Carlson, N Dutt, and J. L. Krichmar. 2019. ``Neural Correlates of Sparse Coding and Dimensionality Reduction.'' \emph{PLOS Computational Biology} 15 (6): e1006908. \url{https://doi.org/10.1371/journal.pcbi.1006908}.
+\leavevmode\vadjust pre{\hypertarget{ref-bachmanPhysicalSalienceValueDriven2020}{}}%
+Bachman, Matthew D., Lingling Wang, Marissa L. Gamble, and Marty G. Woldorff. 2020. {``Physical {Salience} and {Value-Driven Salience Operate} Through {Different Neural Mechanisms} to {Enhance Attentional Selection}.''} \emph{Journal of Neuroscience} 40 (28): 5455--64. \url{https://doi.org/10.1523/JNEUROSCI.1198-19.2020}.
 
-\leavevmode\hypertarget{ref-blancaEffectVarianceRatio2018}{}%
-Blanca, M. J., R. Alarcón, J Arnau, R Bono, and R Bendayan. 2018. ``Effect of Variance Ratio on ANOVA Robustness: Might 1.5 Be the Limit?'' \emph{Behavior Research Methods} 50 (3): 937--62. \url{https://doi.org/10.3758/s13428-017-0918-2}.
+\leavevmode\vadjust pre{\hypertarget{ref-beyelerNeuralCorrelatesSparse2019}{}}%
+Beyeler, M, E. L. Rounds, K. D. Carlson, N Dutt, and J. L. Krichmar. 2019. {``Neural Correlates of Sparse Coding and Dimensionality Reduction.''} \emph{PLOS Computational Biology} 15 (6): e1006908. \url{https://doi.org/10.1371/journal.pcbi.1006908}.
 
-\leavevmode\hypertarget{ref-boormanCounterfactualChoiceLearning2011a}{}%
-Boorman, E. D., T. E. Behrens, and M. F. Rushworth. 2011. ``Counterfactual Choice and Learning in a Neural Network Centered on Human Lateral Frontopolar Cortex.'' \emph{PLOS Biology} 9 (6): e1001093. \url{https://doi.org/10.1371/journal.pbio.1001093}.
+\leavevmode\vadjust pre{\hypertarget{ref-blancaEffectVarianceRatio2018}{}}%
+Blanca, M. J., R. Alarcón, J Arnau, R Bono, and R Bendayan. 2018. {``Effect of Variance Ratio on {ANOVA} Robustness: {Might} 1.5 Be the Limit?''} \emph{Behavior Research Methods} 50 (3): 937--62. \url{https://doi.org/10.3758/s13428-017-0918-2}.
 
-\leavevmode\hypertarget{ref-brainardPsychophysicsToolbox1997}{}%
-Brainard, D. H. 1997. ``The Psychophysics Toolbox.'' \emph{Spatial Vision} 10 (4): 433--36.
+\leavevmode\vadjust pre{\hypertarget{ref-boormanCounterfactualChoiceLearning2011a}{}}%
+Boorman, E. D., T. E. Behrens, and M. F. Rushworth. 2011. {``Counterfactual {Choice} and {Learning} in a {Neural Network Centered} on {Human Lateral Frontopolar Cortex}.''} \emph{PLOS Biology} 9 (6): e1001093. \url{https://doi.org/10.1371/journal.pbio.1001093}.
 
-\leavevmode\hypertarget{ref-brydevallNeuralEncodingInformation2018}{}%
-Brydevall, M., D. Bennett, C. Murawski, and S. Bode. 2018. ``The Neural Encoding of Information Prediction Errors During Non-Instrumental Information Seeking.'' \emph{Scientific Reports} 8 (1): 6134. \url{https://doi.org/10.1038/s41598-018-24566-x}.
+\leavevmode\vadjust pre{\hypertarget{ref-brainardPsychophysicsToolbox1997}{}}%
+Brainard, D. H. 1997. {``\href{https://www.ncbi.nlm.nih.gov/pubmed/9176952}{The {Psychophysics Toolbox}}.''} \emph{Spatial Vision} 10 (4): 433--36.
 
-\leavevmode\hypertarget{ref-buschmanBehaviorNeuralDynamics2015}{}%
-Buschman, T. J., and S. Kastner. 2015. ``From Behavior to Neural Dynamics: An Integrated Theory of Attention.'' \emph{Neuron} 88 (1): 127--44. \url{https://doi.org/10.1016/j.neuron.2015.09.017}.
+\leavevmode\vadjust pre{\hypertarget{ref-brydevallNeuralEncodingInformation2018}{}}%
+Brydevall, M., D. Bennett, C. Murawski, and S. Bode. 2018. {``The Neural Encoding of Information Prediction Errors During Non-Instrumental Information Seeking.''} \emph{Scientific Reports} 8 (1): 6134. \url{https://doi.org/10.1038/s41598-018-24566-x}.
 
-\leavevmode\hypertarget{ref-carrascoVisualAttention252011a}{}%
-Carrasco, M. 2011. ``Visual Attention: The Past 25 Years.'' \emph{Vision Research}, Vision Research 50th Anniversary Issue: Part 2, 51 (13): 1484--1525. \url{https://doi.org/10.1016/j.visres.2011.04.012}.
+\leavevmode\vadjust pre{\hypertarget{ref-buschmanBehaviorNeuralDynamics2015}{}}%
+Buschman, T. J., and S. Kastner. 2015. {``From Behavior to Neural Dynamics: {An} Integrated Theory of Attention.''} \emph{Neuron} 88 (1): 127--44. \url{https://doi.org/10.1016/j.neuron.2015.09.017}.
 
-\leavevmode\hypertarget{ref-chelazziAlteringSpatialPriority2014}{}%
-Chelazzi, L, J. Eštočinová, R. Calletti, E. L. Gerfo, I. Sani, C. D. Libera, and E. Santandrea. 2014. ``Altering Spatial Priority Maps via Reward-Based Learning.'' \emph{Journal of Neuroscience} 34 (25): 8594--8604. \url{https://doi.org/10.1523/JNEUROSCI.0277-14.2014}.
+\leavevmode\vadjust pre{\hypertarget{ref-carrascoVisualAttention252011a}{}}%
+Carrasco, M. 2011. {``Visual Attention: {The} Past 25 Years.''} \emph{Vision Research}, Vision {Research} 50th {Anniversary Issue}: {Part} 2, 51 (13): 1484--1525. \url{https://doi.org/10.1016/j.visres.2011.04.012}.
 
-\leavevmode\hypertarget{ref-chelazziRewardsTeachVisual2013a}{}%
-Chelazzi, L., A. Perlato, E. Santandrea, and C. Della Libera. 2013. ``Rewards Teach Visual Selective Attention.'' \emph{Vision Research}, Visual Attention 2013 vol. II, 85 (June): 58--72. \url{https://doi.org/10.1016/j.visres.2012.12.005}.
+\leavevmode\vadjust pre{\hypertarget{ref-chelazziAlteringSpatialPriority2014}{}}%
+Chelazzi, L, J. Eštočinová, R. Calletti, E. L. Gerfo, I. Sani, C. D. Libera, and E. Santandrea. 2014. {``Altering {Spatial Priority Maps} via {Reward-Based Learning}.''} \emph{Journal of Neuroscience} 34 (25): 8594--604. \url{https://doi.org/10.1523/JNEUROSCI.0277-14.2014}.
 
-\leavevmode\hypertarget{ref-chicaSpatialOrientingParadigm2014a}{}%
-Chica, A\(>\)B., E. Martín-Arévalo, F. Botta, and J. Lupiáñez. 2014. ``The Spatial Orienting Paradigm: How to Design and Interpret Spatial Attention Experiments.'' \emph{Neuroscience \& Biobehavioral Reviews} 40 (March): 35--51. \url{https://doi.org/10.1016/j.neubiorev.2014.01.002}.
+\leavevmode\vadjust pre{\hypertarget{ref-chelazziRewardsTeachVisual2013a}{}}%
+Chelazzi, L., A. Perlato, E. Santandrea, and C. Della Libera. 2013. {``Rewards Teach Visual Selective Attention.''} \emph{Vision Research}, Visual {Attention} 2013 {Volume II}, 85 (June): 58--72. \url{https://doi.org/10.1016/j.visres.2012.12.005}.
 
-\leavevmode\hypertarget{ref-desimoneNeuralMechanismsSelective1995a}{}%
-Desimone, R., and J. Duncan. 1995. ``Neural Mechanisms of Selective Visual Attention.'' \emph{Annual Review of Neuroscience} 18 (1): 193--222. \url{https://doi.org/10.1146/annurev.ne.18.030195.001205}.
+\leavevmode\vadjust pre{\hypertarget{ref-chicaSpatialOrientingParadigm2014a}{}}%
+Chica, A\textgreater B., E. Martín-Arévalo, F. Botta, and J. Lupiáñez. 2014. {``The {Spatial Orienting} Paradigm: {How} to Design and Interpret Spatial Attention Experiments.''} \emph{Neuroscience \& Biobehavioral Reviews} 40 (March): 35--51. \url{https://doi.org/10.1016/j.neubiorev.2014.01.002}.
 
-\leavevmode\hypertarget{ref-dolanGoalsHabitsBrain2013}{}%
-Dolan, R. J., and P. Dayan. 2013. ``Goals and Habits in the Brain.'' \emph{Neuron} 80 (2): 312--25. \url{https://doi.org/10.1016/j.neuron.2013.09.007}.
+\leavevmode\vadjust pre{\hypertarget{ref-desimoneNeuralMechanismsSelective1995a}{}}%
+Desimone, R., and J. Duncan. 1995. {``Neural {Mechanisms} of {Selective Visual Attention}.''} \emph{Annual Review of Neuroscience} 18 (1): 193--222. \url{https://doi.org/10.1146/annurev.ne.18.030195.001205}.
 
-\leavevmode\hypertarget{ref-dunn+WellSeparatedClustersOptimal1974}{}%
-Dunn\textdagger, J. C. 1974. ``Well-Separated Clusters and Optimal Fuzzy Partitions.'' \emph{Journal of Cybernetics} 4 (1): 95--104. \url{https://doi.org/10.1080/01969727408546059}.
+\leavevmode\vadjust pre{\hypertarget{ref-dolanGoalsHabitsBrain2013}{}}%
+Dolan, R. J., and P. Dayan. 2013. {``Goals and {Habits} in the {Brain}.''} \emph{Neuron} 80 (2): 312--25. \url{https://doi.org/10.1016/j.neuron.2013.09.007}.
 
-\leavevmode\hypertarget{ref-failingSelectionHistoryHow2018}{}%
-Failing, M., and J. Theeuwes. 2018. ``Selection History: How Reward Modulates Selectivity of Visual Attention.'' \emph{Psychonomic Bulletin \& Review} 25 (2): 514--38. \url{https://doi.org/10.3758/s13423-017-1380-y}.
+\leavevmode\vadjust pre{\hypertarget{ref-dunn+WellSeparatedClustersOptimal1974}{}}%
+Dunn, J. C. 1974. {``Well-{Separated Clusters} and {Optimal Fuzzy Partitions}.''} \emph{Journal of Cybernetics} 4 (1): 95--104. \url{https://doi.org/10.1080/01969727408546059}.
 
-\leavevmode\hypertarget{ref-fouragnanMacaqueAnteriorCingulate2019a}{}%
-Fouragnan, E. F., B. K. H. Chau, D. Folloni, N. Kolling, L. Verhagen, M. Klein-Flügge, L. Tankelevitch, et al. 2019. ``The Macaque Anterior Cingulate Cortex Translates Counterfactual Choice Value into Actual Behavioral Change.'' \emph{Nature Neuroscience} 22 (5): 797--808. \url{https://doi.org/10.1038/s41593-019-0375-6}.
+\leavevmode\vadjust pre{\hypertarget{ref-failingSelectionHistoryHow2018}{}}%
+Failing, M., and J. Theeuwes. 2018. {``Selection History: {How} Reward Modulates Selectivity of Visual Attention.''} \emph{Psychonomic Bulletin \& Review} 25 (2): 514--38. \url{https://doi.org/10.3758/s13423-017-1380-y}.
 
-\leavevmode\hypertarget{ref-foxCompanionAppliedRegression2018}{}%
-Fox, J., and S. Weisberg. 2018. \emph{An R Companion to Applied Regression}. SAGE Publications.
+\leavevmode\vadjust pre{\hypertarget{ref-fouragnanMacaqueAnteriorCingulate2019a}{}}%
+Fouragnan, E. F., B. K. H. Chau, D. Folloni, N. Kolling, L. Verhagen, M. Klein-Flügge, L. Tankelevitch, et al. 2019. {``The Macaque Anterior Cingulate Cortex Translates Counterfactual Choice Value into Actual Behavioral Change.''} \emph{Nature Neuroscience} 22 (5): 797--808. \url{https://doi.org/10.1038/s41593-019-0375-6}.
 
-\leavevmode\hypertarget{ref-garnerIncentiveValueSpatial2021a}{}%
-Garner, K. G., H. Bowman, and J. E. Raymond. 2021. ``Incentive Value and Spatial Certainty Combine Additively to Determine Visual Priorities.'' \emph{Attention, Perception, \& Psychophysics} 83 (1): 173--86. \url{https://doi.org/10.3758/s13414-020-02124-w}.
+\leavevmode\vadjust pre{\hypertarget{ref-foxCompanionAppliedRegression2018}{}}%
+Fox, J., and S. Weisberg. 2018. \emph{An {R Companion} to {Applied Regression}}. {SAGE Publications}.
 
-\leavevmode\hypertarget{ref-hairMultivariateDataAnalysis2010}{}%
-Hair, J. F., W. C. Black, and B. J. Babin. 2010. \emph{Multivariate Data Analysis: A Global Perspective}. Pearson Education.
+\leavevmode\vadjust pre{\hypertarget{ref-garnerIncentiveValueSpatial2021a}{}}%
+Garner, K. G., H. Bowman, and J. E. Raymond. 2021. {``Incentive Value and Spatial Certainty Combine Additively to Determine Visual Priorities.''} \emph{Attention, Perception, \& Psychophysics} 83 (1): 173--86. \url{https://doi.org/10.3758/s13414-020-02124-w}.
 
-\leavevmode\hypertarget{ref-hickRateGainInformation1952}{}%
-Hick, W. E. 1952. ``On the Rate of Gain of Information.'' \emph{Quarterly Journal of Experimental Psychology} 4 (1): 11--26. \url{https://doi.org/10.1080/17470215208416600}.
+\leavevmode\vadjust pre{\hypertarget{ref-hairMultivariateDataAnalysis2010}{}}%
+Hair, J. F., W. C. Black, and B. J. Babin. 2010. \emph{Multivariate {Data Analysis}: {A Global Perspective}}. {Pearson Education}.
 
-\leavevmode\hypertarget{ref-hofmansAddedValueBootstrap2015}{}%
-Hofmans, J., E. Ceulemans, D. Steinley, and I. Van Mechelen. 2015. ``On the Added Value of Bootstrap Analysis for K-Means Clustering.'' \emph{Journal of Classification} 32 (2): 268--84. \url{https://doi.org/10.1007/s00357-015-9178-y}.
+\leavevmode\vadjust pre{\hypertarget{ref-hickRateGainInformation1952}{}}%
+Hick, W. E. 1952. {``On the {Rate} of {Gain} of {Information}.''} \emph{Quarterly Journal of Experimental Psychology} 4 (1): 11--26. \url{https://doi.org/10.1080/17470215208416600}.
 
-\leavevmode\hypertarget{ref-hymanStimulusInformationDeterminant1953}{}%
-Hyman, R. 1953. ``Stimulus Information as a Determinant of Reaction Time.'' \emph{Journal of Experimental Psychology}. \url{https://doi.org/10.1037/H0056940}.
+\leavevmode\vadjust pre{\hypertarget{ref-hofmansAddedValueBootstrap2015}{}}%
+Hofmans, J., E. Ceulemans, D. Steinley, and I. Van Mechelen. 2015. {``On the {Added Value} of {Bootstrap Analysis} for {K-Means Clustering}.''} \emph{Journal of Classification} 32 (2): 268--84. \url{https://doi.org/10.1007/s00357-015-9178-y}.
 
-\leavevmode\hypertarget{ref-itthipuripatValuedrivenAttentionalCapture2019}{}%
-Itthipuripat, S., Vy A. Vo, T. C. Sprague, and J. T. Serences. 2019. ``Value-Driven Attentional Capture Enhances Distractor Representations in Early Visual Cortex.'' \emph{PLOS Biology} 17 (8): e3000186. \url{https://doi.org/10.1371/journal.pbio.3000186}.
+\leavevmode\vadjust pre{\hypertarget{ref-hymanStimulusInformationDeterminant1953}{}}%
+Hyman, R. 1953. {``Stimulus Information as a Determinant of Reaction Time.''} \emph{Journal of Experimental Psychology}. \url{https://doi.org/10.1037/H0056940}.
 
-\leavevmode\hypertarget{ref-ittiComputationalModellingVisual2001}{}%
-Itti, L, and C Koch. 2001. ``Computational Modelling of Visual Attention.'' \emph{Nature Reviews Neuroscience} 2 (3): 194--203. \url{https://doi.org/10.1038/35058500}.
+\leavevmode\vadjust pre{\hypertarget{ref-itthipuripatValuedrivenAttentionalCapture2019}{}}%
+Itthipuripat, S., Vy A. Vo, T. C. Sprague, and J. T. Serences. 2019. {``Value-Driven Attentional Capture Enhances Distractor Representations in Early Visual Cortex.''} \emph{PLOS Biology} 17 (8): e3000186. \url{https://doi.org/10.1371/journal.pbio.3000186}.
 
-\leavevmode\hypertarget{ref-ittiSaliencybasedSearchMechanism2000}{}%
-Itti, L., and C. Koch. 2000. ``A Saliency-Based Search Mechanism for Overt and Covert Shifts of Visual Attention.'' \emph{Vision Research} 40 (10): 1489--1506. \url{https://doi.org/10.1016/S0042-6989(99)00163-7}.
+\leavevmode\vadjust pre{\hypertarget{ref-ittiSaliencybasedSearchMechanism2000}{}}%
+Itti, L., and C. Koch. 2000. {``A Saliency-Based Search Mechanism for Overt and Covert Shifts of Visual Attention.''} \emph{Vision Research} 40 (10): 1489--1506. \url{https://doi.org/10.1016/S0042-6989(99)00163-7}.
 
-\leavevmode\hypertarget{ref-jiangHabitlikeAttention2019}{}%
-Jiang, Y. V., and C. A. Sisk. 2019. ``Habit-Like Attention.'' \emph{Current Opinion in Psychology}, Attention \& Perception, 29 (October): 65--70. \url{https://doi.org/10.1016/j.copsyc.2018.11.014}.
+\leavevmode\vadjust pre{\hypertarget{ref-ittiComputationalModellingVisual2001}{}}%
+Itti, L, and C Koch. 2001. {``Computational Modelling of Visual Attention.''} \emph{Nature Reviews Neuroscience} 2 (3): 194--203. \url{https://doi.org/10.1038/35058500}.
 
-\leavevmode\hypertarget{ref-kimCombinedInfluenceValence2021}{}%
-Kim, Haena, and Brian A. Anderson. 2021. ``Combined Influence of Valence and Statistical Learning on the Control of Attention: Evidence for Independent Sources of Bias.'' \emph{Cognition} 208 (March): 104554. \url{https://doi.org/10.1016/j.cognition.2020.104554}.
+\leavevmode\vadjust pre{\hypertarget{ref-jiangHabitlikeAttention2019}{}}%
+Jiang, Y. V., and C. A. Sisk. 2019. {``Habit-Like Attention.''} \emph{Current Opinion in Psychology}, Attention \& {Perception}, 29 (October): 65--70. \url{https://doi.org/10.1016/j.copsyc.2018.11.014}.
 
-\leavevmode\hypertarget{ref-lanthierResolvingControversyProportion2015}{}%
-Lanthier, S. N., D. W. L. Wu, C. S. Chapman, and A. Kingstone. 2015. ``Resolving the Controversy of the Proportion Validity Effect: Volitional Attention Is Not Required, but May Have an Effect.'' \emph{Attention, Perception, \& Psychophysics} 77 (8): 2611--21. \url{https://doi.org/10.3758/s13414-015-0956-8}.
+\leavevmode\vadjust pre{\hypertarget{ref-kimCombinedInfluenceValence2021}{}}%
+Kim, Haena, and Brian A. Anderson. 2021. {``Combined Influence of Valence and Statistical Learning on the Control of Attention: {Evidence} for Independent Sources of Bias.''} \emph{Cognition} 208 (March): 104554. \url{https://doi.org/10.1016/j.cognition.2020.104554}.
 
-\leavevmode\hypertarget{ref-lepelleyAttentionAssociativeLearning2016a}{}%
-Le Pelley, M. E., C. J. Mitchell, T. Beesley, D. N. George, and A. J. Wills. 2016. ``Attention and Associative Learning in Humans: An Integrative Review.'' \emph{Psychological Bulletin} 142 (10): 1111--40. \url{https://doi.org/10.1037/bul0000064}.
+\leavevmode\vadjust pre{\hypertarget{ref-lanthierResolvingControversyProportion2015}{}}%
+Lanthier, S. N., D. W. L. Wu, C. S. Chapman, and A. Kingstone. 2015. {``Resolving the Controversy of the Proportion Validity Effect: {Volitional} Attention Is Not Required, but May Have an Effect.''} \emph{Attention, Perception, \& Psychophysics} 77 (8): 2611--21. \url{https://doi.org/10.3758/s13414-015-0956-8}.
 
-\leavevmode\hypertarget{ref-lepelleyWhenGoalsConflict2015}{}%
-Le Pelley, M. E., D. Pearson, O. Griffiths, and T. Beesley. 2015. ``When Goals Conflict with Values: Counterproductive Attentional and Oculomotor Capture by Reward-Related Stimuli.'' \emph{Journal of Experimental Psychology: General} 144 (1): 158--71. \url{https://doi.org/10.1037/xge0000037}.
+\leavevmode\vadjust pre{\hypertarget{ref-lepelleyAttentionAssociativeLearning2016a}{}}%
+Le Pelley, M. E., C. J. Mitchell, T. Beesley, D. N. George, and A. J. Wills. 2016. {``Attention and Associative Learning in Humans: {An} Integrative Review.''} \emph{Psychological Bulletin} 142 (10): 1111--40. \url{https://doi.org/10.1037/bul0000064}.
 
-\leavevmode\hypertarget{ref-lepelleyRewardLearningStatistical2022}{}%
-Le Pelley, Mike E., Rhonda Ung, Chisato Mine, Steven B. Most, Poppy Watson, Daniel Pearson, and Jan Theeuwes. 2022. ``Reward Learning and Statistical Learning Independently Influence Attentional Priority of Salient Distractors in Visual Search.'' \emph{Attention, Perception \& Psychophysics}, January. \url{https://doi.org/10.3758/s13414-021-02426-7}.
+\leavevmode\vadjust pre{\hypertarget{ref-lepelleyWhenGoalsConflict2015}{}}%
+Le Pelley, M. E., D. Pearson, O. Griffiths, and T. Beesley. 2015. {``When Goals Conflict with Values: {Counterproductive} Attentional and Oculomotor Capture by Reward-Related Stimuli.''} \emph{Journal of Experimental Psychology: General} 144 (1): 158--71. \url{https://doi.org/10.1037/xge0000037}.
 
-\leavevmode\hypertarget{ref-lingawiPsychologicalPhysiologicalMechanisms2016}{}%
-Lingawi, N. W., A. Dezfouli, and B. W. Balleine. 2016. ``The Psychological and Physiological Mechanisms of Habit Formation.'' In \emph{The Wiley Handbook on the Cognitive Neuroscience of Learning}, 411--41. Wiley Handbooks in Cognitive Neuroscience. Wiley-Blackwell.
+\leavevmode\vadjust pre{\hypertarget{ref-lepelleyRewardLearningStatistical2022}{}}%
+Le Pelley, Mike E., Rhonda Ung, Chisato Mine, Steven B. Most, Poppy Watson, Daniel Pearson, and Jan Theeuwes. 2022. {``Reward Learning and Statistical Learning Independently Influence Attentional Priority of Salient Distractors in Visual Search.''} \emph{Attention, Perception \& Psychophysics}, January. \url{https://doi.org/10.3758/s13414-021-02426-7}.
 
-\leavevmode\hypertarget{ref-mackintoshTheoryAttentionVariations1975}{}%
-Mackintosh, N. J. 1975. ``A Theory of Attention: Variations in the Associability of Stimuli with Reinforcement.'' \emph{Psychological Review} 82 (4): 276--98. \url{https://doi.org/10.1037/h0076778}.
+\leavevmode\vadjust pre{\hypertarget{ref-lingawiPsychologicalPhysiologicalMechanisms2016}{}}%
+Lingawi, N. W., A. Dezfouli, and B. W. Balleine. 2016. {``The Psychological and Physiological Mechanisms of Habit Formation.''} In \emph{The {Wiley} Handbook on the Cognitive Neuroscience of Learning}, 411--41. Wiley Handbooks in Cognitive Neuroscience. {Wiley-Blackwell}.
 
-\leavevmode\hypertarget{ref-macleanIrrelevantLearnedReward2016}{}%
-MacLean, M. H., G. K. Diaz, and B. Giesbrecht. 2016. ``Irrelevant Learned Reward Associations Disrupt Voluntary Spatial Attention.'' \emph{Attention, Perception, \& Psychophysics} 78 (7): 2241--52. \url{https://doi.org/10.3758/s13414-016-1103-x}.
+\leavevmode\vadjust pre{\hypertarget{ref-mackintoshTheoryAttentionVariations1975}{}}%
+Mackintosh, N. J. 1975. {``A Theory of Attention: {Variations} in the Associability of Stimuli with Reinforcement.''} \emph{Psychological Review} 82 (4): 276--98. \url{https://doi.org/10.1037/h0076778}.
 
-\leavevmode\hypertarget{ref-manoharDistinctMotivationalEffects2017}{}%
-Manohar, S. G., R. D. Finzi, D. Drew, and M. Husain. 2017. ``Distinct Motivational Effects of Contingent and Noncontingent Rewards.'' \emph{Psychological Science} 28 (7): 1016--26. \url{https://doi.org/10.1177/0956797617693326}.
+\leavevmode\vadjust pre{\hypertarget{ref-macleanIrrelevantLearnedReward2016}{}}%
+MacLean, M. H., G. K. Diaz, and B. Giesbrecht. 2016. {``Irrelevant Learned Reward Associations Disrupt Voluntary Spatial Attention.''} \emph{Attention, Perception, \& Psychophysics} 78 (7): 2241--52. \url{https://doi.org/10.3758/s13414-016-1103-x}.
 
-\leavevmode\hypertarget{ref-mooreNeuralMechanismsSelective2017}{}%
-Moore, T., and M. Zirnsak. 2017. ``Neural Mechanisms of Selective Visual Attention.'' \emph{Annual Review of Psychology} 68 (1): 47--72. \url{https://doi.org/10.1146/annurev-psych-122414-033400}.
+\leavevmode\vadjust pre{\hypertarget{ref-manoharDistinctMotivationalEffects2017}{}}%
+Manohar, S. G., R. D. Finzi, D. Drew, and M. Husain. 2017. {``Distinct {Motivational Effects} of {Contingent} and {Noncontingent Rewards}.''} \emph{Psychological Science} 28 (7): 1016--26. \url{https://doi.org/10.1177/0956797617693326}.
 
-\leavevmode\hypertarget{ref-moreyBayesFactorComputationBayes2015}{}%
-Morey, R. D., J. N. Rouder, and T. Jamil. 2015. ``BayesFactor: Computation of Bayes Factors for Common Designs.''
+\leavevmode\vadjust pre{\hypertarget{ref-mattlerCombinedExpectancyEffects2004}{}}%
+Mattler, Uwe. 2004. {``Combined Expectancy Effects Are Modulated by the Relation Between Expectancy Cues.''} \emph{The Quarterly Journal of Experimental Psychology A: Human Experimental Psychology} 57A (2): 193--221. \url{https://doi.org/10.1080/02724980343000161}.
 
-\leavevmode\hypertarget{ref-munnekeRewardCanModulate2015}{}%
-Munneke, Jaap, Sylco S. Hoppenbrouwers, and Jan Theeuwes. 2015. ``Reward Can Modulate Attentional Capture, Independent of Top-down Set.'' \emph{Attention, Perception \& Psychophysics} 77 (8): 2540--8. \url{https://doi.org/10.3758/s13414-015-0958-6}.
+\leavevmode\vadjust pre{\hypertarget{ref-mooreNeuralMechanismsSelective2017}{}}%
+Moore, T., and M. Zirnsak. 2017. {``Neural {Mechanisms} of {Selective Visual Attention}.''} \emph{Annual Review of Psychology} 68 (1): 47--72. \url{https://doi.org/10.1146/annurev-psych-122414-033400}.
 
-\leavevmode\hypertarget{ref-mullerRelevanceDrivesAttention2016}{}%
-Müller, Sascha, Klaus Rothermund, and Dirk Wentura. 2016. ``Relevance Drives Attention: Attentional Bias for Gain- and Loss-Related Stimuli Is Driven by Delayed Disengagement.'' \emph{Quarterly Journal of Experimental Psychology} 69 (4): 752--63. \url{https://doi.org/10.1080/17470218.2015.1049624}.
+\leavevmode\vadjust pre{\hypertarget{ref-moreyBayesFactorComputationBayes2015}{}}%
+Morey, R. D., J. N. Rouder, and T. Jamil. 2015. {``{BayesFactor}: {Computation} of {Bayes Factors} for {Common Designs}.''}
 
-\leavevmode\hypertarget{ref-pearlCausality2009}{}%
-Pearl, J. 2009. \emph{Causality}. Second. Cambridge: Cambridge University Press. \url{https://doi.org/10.1017/CBO9780511803161}.
+\leavevmode\vadjust pre{\hypertarget{ref-mullerRelevanceDrivesAttention2016}{}}%
+Müller, Sascha, Klaus Rothermund, and Dirk Wentura. 2016. {``Relevance Drives Attention: {Attentional} Bias for Gain- and Loss-Related Stimuli Is Driven by Delayed Disengagement.''} \emph{Quarterly Journal of Experimental Psychology} 69 (4): 752--63. \url{https://doi.org/10.1080/17470218.2015.1049624}.
 
-\leavevmode\hypertarget{ref-pearsonOvertAttentionalCapture2020}{}%
-Pearson, Daniel, Poppy Watson, Phillip (Xin) Cheng, and Mike E. Le Pelley. 2020. ``Overt Attentional Capture by Reward-Related Stimuli Overcomes Inhibitory Suppression.'' \emph{Journal of Experimental Psychology: Human Perception and Performance} 46 (5): 489--501. \url{https://doi.org/10.1037/xhp0000728}.
+\leavevmode\vadjust pre{\hypertarget{ref-munnekeRewardCanModulate2015}{}}%
+Munneke, Jaap, Sylco S. Hoppenbrouwers, and Jan Theeuwes. 2015. {``Reward Can Modulate Attentional Capture, Independent of Top-down Set.''} \emph{Attention, Perception \& Psychophysics} 77 (8): 2540--48. \url{https://doi.org/10.3758/s13414-015-0958-6}.
 
-\leavevmode\hypertarget{ref-pelliVideoToolboxSoftwareVisual1997}{}%
-Pelli, D. G. 1997. ``The VideoToolbox Software for Visual Psychophysics: Transforming Numbers into Movies.'' \emph{Spatial Vision} 10 (4): 437--42. \url{https://doi.org/10.1163/156856897X00366}.
+\leavevmode\vadjust pre{\hypertarget{ref-pearlCausality2009}{}}%
+Pearl, J. 2009. \emph{Causality}. Second. {Cambridge}: {Cambridge University Press}. \url{https://doi.org/10.1017/CBO9780511803161}.
 
-\leavevmode\hypertarget{ref-pischeddaEffectCounterfactualInformation2020}{}%
-Pischedda, D., S. Palminteri, and G. Coricelli. 2020. ``The Effect of Counterfactual Information on Outcome Value Coding in Medial Prefrontal and Cingulate Cortex: From an Absolute to a Relative Neural Code.'' \emph{Journal of Neuroscience} 40 (16): 3268--77. \url{https://doi.org/10.1523/JNEUROSCI.1712-19.2020}.
+\leavevmode\vadjust pre{\hypertarget{ref-pearsonOvertAttentionalCapture2020}{}}%
+Pearson, Daniel, Poppy Watson, Phillip (Xin) Cheng, and Mike E. Le Pelley. 2020. {``Overt Attentional Capture by Reward-Related Stimuli Overcomes Inhibitory Suppression.''} \emph{Journal of Experimental Psychology: Human Perception and Performance} 46 (5): 489--501. \url{https://doi.org/10.1037/xhp0000728}.
 
-\leavevmode\hypertarget{ref-posnerOrientingAttention1980a}{}%
-Posner, M. I. 1980. ``Orienting of Attention.'' \emph{Quarterly Journal of Experimental Psychology} 32 (1): 3--25. \url{https://doi.org/10.1080/00335558008248231}.
+\leavevmode\vadjust pre{\hypertarget{ref-pelliVideoToolboxSoftwareVisual1997}{}}%
+Pelli, D. G. 1997. {``The {VideoToolbox} Software for Visual Psychophysics: Transforming Numbers into Movies.''} \emph{Spatial Vision} 10 (4): 437--42. \url{https://doi.org/10.1163/156856897X00366}.
 
-\leavevmode\hypertarget{ref-prinzmetalSpatialAttentionEnvironmental2015}{}%
-Prinzmetal, W., K. L. Whiteford, J. L. Austerweil, and A. Landau. 2015. ``Spatial Attention and Environmental Information.'' \emph{Journal of Experimental Psychology. Human Perception and Performance} 41 (5): 1396--1408. \url{https://doi.org/10.1037/a0039429}.
+\leavevmode\vadjust pre{\hypertarget{ref-pischeddaEffectCounterfactualInformation2020}{}}%
+Pischedda, D., S. Palminteri, and G. Coricelli. 2020. {``The {Effect} of {Counterfactual Information} on {Outcome Value Coding} in {Medial Prefrontal} and {Cingulate Cortex}: {From} an {Absolute} to a {Relative Neural Code}.''} \emph{Journal of Neuroscience} 40 (16): 3268--77. \url{https://doi.org/10.1523/JNEUROSCI.1712-19.2020}.
 
-\leavevmode\hypertarget{ref-raymondInteractionsAttentionEmotion2009}{}%
-Raymond, J. 2009. ``Interactions of Attention, Emotion and Motivation.'' In \emph{Progress in Brain Research}, edited by Narayanan Srinivasan, 176:293--308. Attention. Elsevier. \url{https://doi.org/10.1016/S0079-6123(09)17617-3}.
+\leavevmode\vadjust pre{\hypertarget{ref-posnerOrientingAttention1980a}{}}%
+Posner, M. I. 1980. {``Orienting of {Attention}.''} \emph{Quarterly Journal of Experimental Psychology} 32 (1): 3--25. \url{https://doi.org/10.1080/00335558008248231}.
 
-\leavevmode\hypertarget{ref-raymondSelectiveVisualAttention2009a}{}%
-Raymond, J. E., and J. L. O'Brien. 2009. ``Selective Visual Attention and Motivation: The Consequences of Value Learning in an Attentional Blink Task.'' \emph{Psychological Science} 20 (8): 981--88. \url{https://doi.org/10.1111/j.1467-9280.2009.02391.x}.
+\leavevmode\vadjust pre{\hypertarget{ref-prinzmetalSpatialAttentionEnvironmental2015}{}}%
+Prinzmetal, W., K. L. Whiteford, J. L. Austerweil, and A. Landau. 2015. {``Spatial Attention and Environmental Information.''} \emph{Journal of Experimental Psychology. Human Perception and Performance} 41 (5): 1396--1408. \url{https://doi.org/10.1037/a0039429}.
 
-\leavevmode\hypertarget{ref-risticNewFormHuman2012}{}%
-Ristic, J., and A. Kingstone. 2012. ``A New Form of Human Spatial Attention: Automated Symbolic Orienting.'' \emph{Visual Cognition} 20 (3): 244--64. \url{https://doi.org/10.1080/13506285.2012.658101}.
+\leavevmode\vadjust pre{\hypertarget{ref-raymondInteractionsAttentionEmotion2009}{}}%
+Raymond, J. 2009. {``Interactions of Attention, Emotion and Motivation.''} In \emph{Progress in {Brain Research}}, edited by Narayanan Srinivasan, 176:293--308. Attention. {Elsevier}. \url{https://doi.org/10.1016/S0079-6123(09)17617-3}.
 
-\leavevmode\hypertarget{ref-rouderAreThereReliable2021}{}%
-Rouder, Jeffrey, and Julia M. Haaf. 2021. ``Are There Reliable Qualitative Individual Differences in Cognition?'' \emph{Journal of Cognition} 4 (1): 46. \url{https://doi.org/10.5334/joc.131}.
+\leavevmode\vadjust pre{\hypertarget{ref-raymondSelectiveVisualAttention2009a}{}}%
+Raymond, J. E., and J. L. O'Brien. 2009. {``Selective {Visual Attention} and {Motivation}: {The Consequences} of {Value Learning} in an {Attentional Blink Task}.''} \emph{Psychological Science} 20 (8): 981--88. \url{https://doi.org/10.1111/j.1467-9280.2009.02391.x}.
 
-\leavevmode\hypertarget{ref-sawakiHowAttentionChanges2015}{}%
-Sawaki, Risa, Steven J. Luck, and Jane E. Raymond. 2015. ``How Attention Changes in Response to Incentives.'' \emph{Journal of Cognitive Neuroscience} 27 (11): 2229--39. \url{https://doi.org/10.1162/jocn_a_00847}.
+\leavevmode\vadjust pre{\hypertarget{ref-risticNewFormHuman2012}{}}%
+Ristic, J., and A. Kingstone. 2012. {``A New Form of Human Spatial Attention: {Automated} Symbolic Orienting.''} \emph{Visual Cognition} 20 (3): 244--64. \url{https://doi.org/10.1080/13506285.2012.658101}.
 
-\leavevmode\hypertarget{ref-stankevichRewardAssociationsSpatial2014}{}%
-Stankevich, B. A., and J. J. Geng. 2014. ``Reward Associations and Spatial Probabilities Produce Additive Effects on Attentional Selection.'' \emph{Attention, Perception, \& Psychophysics} 76 (8): 2315--25. \url{https://doi.org/10.3758/s13414-014-0720-5}.
+\leavevmode\vadjust pre{\hypertarget{ref-rouderAreThereReliable2021}{}}%
+Rouder, Jeffrey, and Julia M. Haaf. 2021. {``Are {There Reliable Qualitative Individual Differences} in {Cognition}?''} \emph{Journal of Cognition} 4 (1): 46. \url{https://doi.org/10.5334/joc.131}.
 
-\leavevmode\hypertarget{ref-stanisorUnifiedSelectionSignal2013a}{}%
-Stănişor, L., C. Togt, C. M. A. Pennartz, and P. R. Roelfsema. 2013. ``A Unified Selection Signal for Attention and Reward in Primary Visual Cortex.'' \emph{Proceedings of the National Academy of Sciences} 110 (22): 9136--41. \url{https://doi.org/10.1073/pnas.1300117110}.
+\leavevmode\vadjust pre{\hypertarget{ref-sawakiHowAttentionChanges2015}{}}%
+Sawaki, Risa, Steven J. Luck, and Jane E. Raymond. 2015. {``How Attention Changes in Response to Incentives.''} \emph{Journal of Cognitive Neuroscience} 27 (11): 2229--39. \url{https://doi.org/10.1162/jocn_a_00847}.
 
-\leavevmode\hypertarget{ref-sternbergDiscoveryProcessingStages1969}{}%
-Sternberg, S. 1969. ``The Discovery of Processing Stages: Extensions of Donders' Method.'' \emph{Acta Psychologica} 30 (January): 276--315. \url{https://doi.org/10.1016/0001-6918(69)90055-9}.
+\leavevmode\vadjust pre{\hypertarget{ref-stanisorUnifiedSelectionSignal2013a}{}}%
+Stănişor, L., C. Togt, C. M. A. Pennartz, and P. R. Roelfsema. 2013. {``A Unified Selection Signal for Attention and Reward in Primary Visual Cortex.''} \emph{Proceedings of the National Academy of Sciences} 110 (22): 9136--41. \url{https://doi.org/10.1073/pnas.1300117110}.
 
-\leavevmode\hypertarget{ref-tsotsosControlAttentionalProcesses2021a}{}%
-Tsotsos, J. K., O. Abid, J. Kotseruba, and M. D. Solbach. 2021. ``On the Control of Attentional Processes in Vision.'' \emph{Cortex} 137 (April): 305--29. \url{https://doi.org/10.1016/j.cortex.2021.01.001}.
+\leavevmode\vadjust pre{\hypertarget{ref-stankevichRewardAssociationsSpatial2014}{}}%
+Stankevich, B. A., and J. J. Geng. 2014. {``Reward Associations and Spatial Probabilities Produce Additive Effects on Attentional Selection.''} \emph{Attention, Perception, \& Psychophysics} 76 (8): 2315--25. \url{https://doi.org/10.3758/s13414-014-0720-5}.
 
-\leavevmode\hypertarget{ref-vanlieshoutWhyCuriousQuantifying2020}{}%
-van Lieshout, L. L. F., F. P. de Lange, and R. Cools. 2020. ``Why so Curious? Quantifying Mechanisms of Information Seeking.'' \emph{Current Opinion in Behavioral Sciences}, Curiosity (Explore vs Exploit), 35 (October): 112--17. \url{https://doi.org/10.1016/j.cobeha.2020.08.005}.
+\leavevmode\vadjust pre{\hypertarget{ref-sternbergDiscoveryProcessingStages1969}{}}%
+Sternberg, S. 1969. {``The Discovery of Processing Stages: {Extensions} of {Donders}' Method.''} \emph{Acta Psychologica} 30 (January): 276--315. \url{https://doi.org/10.1016/0001-6918(69)90055-9}.
 
-\leavevmode\hypertarget{ref-vosselCorticalCouplingReflects2015}{}%
-Vossel, S., C. Mathys, K. E. Stephan, and K. J. Friston. 2015. ``Cortical Coupling Reflects Bayesian Belief Updating in the Deployment of Spatial Attention.'' \emph{Journal of Neuroscience} 35 (33): 11532--42. \url{https://doi.org/10.1523/JNEUROSCI.1382-15.2015}.
+\leavevmode\vadjust pre{\hypertarget{ref-tsotsosControlAttentionalProcesses2021a}{}}%
+Tsotsos, J. K., O. Abid, J. Kotseruba, and M. D. Solbach. 2021. {``On the Control of Attentional Processes in Vision.''} \emph{Cortex} 137 (April): 305--29. \url{https://doi.org/10.1016/j.cortex.2021.01.001}.
 
-\leavevmode\hypertarget{ref-wachterCounterfactualExplanationsOpening2017}{}%
-Wachter, S., B. Mittelstadt, and C. Russell. 2017. ``Counterfactual Explanations Without Opening the Black Box: Automated Decisions and the GDPR,'' November.
+\leavevmode\vadjust pre{\hypertarget{ref-vanlieshoutWhyCuriousQuantifying2020}{}}%
+van Lieshout, L. L. F., F. P. de Lange, and R. Cools. 2020. {``Why so Curious? {Quantifying} Mechanisms of Information Seeking.''} \emph{Current Opinion in Behavioral Sciences}, Curiosity ({Explore} vs {Exploit}), 35 (October): 112--17. \url{https://doi.org/10.1016/j.cobeha.2020.08.005}.
 
-\leavevmode\hypertarget{ref-watsonQuestBayesianAdaptive1983}{}%
-Watson, A. B., and D. G. Pelli. 1983. ``Quest: A Bayesian Adaptive Psychometric Method.'' \emph{Perception \& Psychophysics} 33 (2): 113--20. \url{https://doi.org/10.3758/BF03202828}.
+\leavevmode\vadjust pre{\hypertarget{ref-vosselCorticalCouplingReflects2015}{}}%
+Vossel, S., C. Mathys, K. E. Stephan, and K. J. Friston. 2015. {``Cortical {Coupling Reflects Bayesian Belief Updating} in the {Deployment} of {Spatial Attention}.''} \emph{Journal of Neuroscience} 35 (33): 11532--42. \url{https://doi.org/10.1523/JNEUROSCI.1382-15.2015}.
 
-\leavevmode\hypertarget{ref-watsonDelayedDisengagementAttention2020}{}%
-Watson, Poppy, Daniel Pearson, Jan Theeuwes, Steven B. Most, and Mike E. Le Pelley. 2020. ``Delayed Disengagement of Attention from Distractors Signalling Reward.'' \emph{Cognition} 195 (February): 104125. \url{https://doi.org/10.1016/j.cognition.2019.104125}.
+\leavevmode\vadjust pre{\hypertarget{ref-wachterCounterfactualExplanationsOpening2017}{}}%
+Wachter, S., B. Mittelstadt, and C. Russell. 2017. {``Counterfactual {Explanations} Without {Opening} the {Black Box}: {Automated Decisions} and the {GDPR},''} November.
 
-\leavevmode\hypertarget{ref-wilcoxNewMonteCarlo1986}{}%
-Wilcox, Rand R., Ventura L. Char1in, and Karen L. Thompson. 1986. ``New Monte Carlo Results on the Robustness of the Anova F, W and F Statistics.'' \emph{Communications in Statistics - Simulation and Computation} 15 (4): 933--43. \url{https://doi.org/10.1080/03610918608812553}.
+\leavevmode\vadjust pre{\hypertarget{ref-watsonQuestBayesianAdaptive1983}{}}%
+Watson, A. B., and D. G. Pelli. 1983. {``Quest: {A Bayesian} Adaptive Psychometric Method.''} \emph{Perception \& Psychophysics} 33 (2): 113--20. \url{https://doi.org/10.3758/BF03202828}.
 
-\leavevmode\hypertarget{ref-zhigalovProbingCorticalExcitability2019}{}%
-Zhigalov, A., J. D. Herring, J. Herpers, T. O. Bergmann, and O. Jensen. 2019. ``Probing Cortical Excitability Using Rapid Frequency Tagging.'' \emph{NeuroImage} 195 (July): 59--66. \url{https://doi.org/10.1016/j.neuroimage.2019.03.056}.
-\end{cslreferences}
+\leavevmode\vadjust pre{\hypertarget{ref-watsonDelayedDisengagementAttention2020}{}}%
+Watson, Poppy, Daniel Pearson, Jan Theeuwes, Steven B. Most, and Mike E. Le Pelley. 2020. {``Delayed Disengagement of Attention from Distractors Signalling Reward.''} \emph{Cognition} 195 (February): 104125. \url{https://doi.org/10.1016/j.cognition.2019.104125}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wilcoxNewMonteCarlo1986}{}}%
+Wilcox, Rand R., Ventura L. Char1in, and Karen L. Thompson. 1986. {``New Monte Carlo Results on the Robustness of the Anova f, w and f Statistics.''} \emph{Communications in Statistics - Simulation and Computation} 15 (4): 933--43. \url{https://doi.org/10.1080/03610918608812553}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-zhigalovProbingCorticalExcitability2019}{}}%
+Zhigalov, A., J. D. Herring, J. Herpers, T. O. Bergmann, and O. Jensen. 2019. {``Probing Cortical Excitability Using Rapid Frequency Tagging.''} \emph{NeuroImage} 195 (July): 59--66. \url{https://doi.org/10.1016/j.neuroimage.2019.03.056}.
+
+\end{CSLReferences}
 
 
 \begin{notes}[Acknowledgements]
