@@ -46,17 +46,20 @@ do_sub_plts <- function(dat, sub_n, fnm = 'both_sub-%d.pdf'){
     summarise(miny = min(rt),
               maxy = max(rt))
   
-  pa <- dat %>% filter(sub == sub_n) %>% filter(cert == ".2") %>% 
-    ggplot(aes(x = reward_type, y = rt, group = p5_split, colour = p5_split)) +
-    geom_point(position = position_jitter(w = .05, h = .01)) +
-    theme(legend.position = "none") + ggtitle("cert = .2") +
-    ylim(ydat$miny, ydat$maxy)
+  # pa <- dat %>% filter(sub == sub_n) %>% filter(cert == ".2") %>% 
+  #   ggplot(aes(x = reward_type, y = rt, group = p5_split, colour = p5_split)) +
+  #   geom_point(position = position_jitter(w = .05, h = .01)) +
+  #   theme(legend.position = "none") + ggtitle("cert = .2") +
+  #   ylim(ydat$miny, ydat$maxy)
+  pa <- dat %>% filter(sub == sub_n) %>% filter(cert == ".8") %>% 
+          ggplot(aes(x = reward_type, y = rt, group = p5_split, colour = p5_split)) +
+          geom_point(position = position_jitter(w = .05, h = .01)) + 
+          ggtitle("cert = .8") +
+          theme(legend.position = "none") +
+          ylim(ydat$miny, ydat$maxy)
   pb <- dat %>% filter(sub == sub_n) %>% filter(cert == ".8") %>% 
-    ggplot(aes(x = reward_type, y = rt, group = p5_split, colour = p5_split)) +
-    geom_point(position = position_jitter(w = .05, h = .01)) + 
-    ggtitle("cert = .8") +
-    theme(legend.position = "none") +
-    ylim(ydat$miny, ydat$maxy)
+          ggplot(aes(x=rt, group=reward_type, colour=reward_type)) +
+          stat_ecdf(pad = FALSE) 
   p <- arrangeGrob(pa, pb, ncol = 2)
   ggsave(paste("../images", sprintf(fnm, sub_n), sep = "/"), p, units = "cm", width = 16, height = 16)
 }
